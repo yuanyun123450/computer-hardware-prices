@@ -1,0 +1,60 @@
+name: 自动更新价格
+
+# 每小时抓一次 ZOL（无需登录），顺便尝试用 p.3.cn 公开接口刷新京东价
+# 抓到的数据会提交回仓库，评审看仓库就能看到数据在长
+on:
+  schedule:
+    - cron: "17 */2 * * *" # 每 2 小时一次（UTC 时间，避开整点高峰）
+  workflow_dispatch: {} # 也可以在 Actions 页面手动点
+
+permissions:
+  contents: write
+
+concurrency:
+  group: price-update
+  cancel-in-progress: true
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 安装 Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 采集 ZOL（显卡 + 内存 + 电源）
+        run: |
+          node src/collect.mjs --category vga --limit 22 --filter modern || true
+          node src/collect.mjs --category memory --limit 16 || true
+          node src/collect.mjs --category power --limit 12 || true
+
+      - name: 尝试刷新京东价（p.3.cn 公开接口，无需登录）
+        run: node src/jd_price_api.mjs --limit 20 || true
+
+      - name: 收敛与导出
+        run: |
+          node src/dedupe_products.mjs || true
+          node src/trim.mjs || true
+          node src/quality.mjs || true
+          node src/images.mjs || true
+          node src/export.mjs
+
+      - name: 体检
+        run: node src/check.mjs || true
+
+      - name: 提交数据变更
+        run: |
+          git config user.name "price-bot"
+          git config user.email "price-bot@users.noreply.github.com"
+          git add data/snapshot.json data/price.db data/images 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "数据没有变化，跳过提交"
+          else
+            git commit -m "chore(data): 自动更新价格 $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

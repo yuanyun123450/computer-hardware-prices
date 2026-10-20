@@ -1,0 +1,2689 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>京东硬件价格追踪 · 历史位置 · 同款对比</title>
+<style>
+  /* ============================================================
+     样式：深色为主；价格绿色，涨跌用红涨绿跌
+     ============================================================ */
+  :root{
+    --bg:#0a0c10; --panel:#11141b; --panel2:#161a23; --line:#232936;
+    --text:#e7eaf0; --muted:#8d95a6; --dim:#646c7d;
+    --accent:#6ea8fe; --green:#3ddc97; --red:#ff6b6b; --amber:#f5b942;
+    --purple:#a78bfa; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(900px 420px at 12% -8%, #16203a 0%, transparent 60%),
+      radial-gradient(700px 380px at 88% -10%, #1b1730 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font:15px/1.6 system-ui,-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1220px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Cascadia Mono",monospace}
+  [hidden]{display:none !important}
+
+  /* ============ 顶栏 ============ */
+  header.top{position:sticky;top:0;z-index:60;backdrop-filter:blur(12px);
+    background:rgba(10,12,16,.84);border-bottom:1px solid var(--line)}
+  .top-in{display:flex;align-items:center;gap:16px;height:62px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:.3px;white-space:nowrap}
+  .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  .logo small{font-weight:400;color:var(--dim);font-size:12px;letter-spacing:0;margin-left:2px}
+  .top-meta{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:12.5px;color:var(--muted)}
+  .top-meta b{color:var(--text);font-weight:600}
+  .btn{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);
+    padding:8px 14px;border-radius:9px;font-size:13px;font-family:inherit;transition:.15s;white-space:nowrap}
+  .btn:hover{border-color:#3a4356;background:#1c2230}
+  .btn:disabled{opacity:.55;cursor:progress}
+  .status{display:none;align-items:center;gap:7px;font-size:12px;color:var(--amber)}
+  .status.on{display:flex}
+  .spin{width:11px;height:11px;border:2px solid rgba(245,185,66,.3);border-top-color:var(--amber);
+    border-radius:50%;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* ============ 提示条 ============ */
+  .notice{border:1px solid #3a3320;background:rgba(245,185,66,.07);color:#e8ca86;
+    border-radius:10px;padding:9px 14px;font-size:12.5px;margin:18px 0 0;display:flex;gap:10px;line-height:1.65}
+  .notice .i{flex:none;font-weight:700}
+  .notice.offline{border-color:#4a2a2a;background:rgba(255,107,107,.08);color:#ffb3b3}
+
+  /* ============ 概览 ============ */
+  .hero{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:13px 16px}
+  .stat .k{font-size:11.5px;color:var(--muted);letter-spacing:.6px}
+  .stat .v{font-size:21px;font-weight:700;margin-top:2px;letter-spacing:-.5px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis}
+  .stat .v small{font-size:12px;font-weight:400;color:var(--dim);margin-left:4px;letter-spacing:0}
+
+  /* ============ 工具条 / 搜索 ============ */
+  .toolbar{display:flex;align-items:center;gap:12px;margin:24px 0 16px;flex-wrap:wrap}
+  .search{position:relative;flex:1;min-width:260px;max-width:440px}
+  .search input{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:10px 34px 10px 36px;font-size:13.5px;font-family:inherit;outline:none}
+  .search input:focus{border-color:#3a5a92;box-shadow:0 0 0 3px rgba(110,168,254,.12)}
+  .search .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:14px;pointer-events:none}
+  .search .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;
+    color:var(--dim);cursor:pointer;font-size:15px;padding:4px 6px;border-radius:6px}
+  .search .clr:hover{color:#fff;background:#1c2230}
+  select{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;
+    padding:10px 12px;font-size:13px;font-family:inherit;outline:none;cursor:pointer}
+  .hint{color:var(--dim);font-size:12px;margin-left:auto}
+  .cats{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 0}
+  .cat{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+    border-radius:999px;padding:6px 13px;font-size:12.5px;font-family:inherit;transition:.15s}
+  .cat:hover{border-color:#3a4356;color:var(--text)}
+  .cat.on{background:#1d2b45;border-color:#3a5a92;color:#cfe0ff}
+  .cat span{margin-left:6px;color:var(--dim);font-size:11px}
+  .cat.on span{color:#9dbcf0}
+
+  /* 搜索候选面板 */
+  .cands{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:70;
+    background:#12161f;border:1px solid #2b3345;border-radius:12px;padding:8px;
+    box-shadow:0 24px 60px -20px #000;max-height:60vh;overflow:auto}
+  .cand{display:flex;gap:11px;padding:9px;border-radius:9px;cursor:pointer;align-items:center}
+  .cand:hover,.cand.act{background:#1a2130}
+  .cand .im{width:52px;height:40px;flex:none;border-radius:7px;background:#0d1117;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;color:#2b3446;font-weight:800;font-size:18px}
+  .cand .im img{width:100%;height:100%;object-fit:contain}
+  .cand .t{flex:1;min-width:0}
+  .cand .t .n{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cand .t .w{font-size:10.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cand .p{font-size:13px;font-weight:700;color:var(--green);white-space:nowrap}
+  .cand .sc{font-size:10px;color:var(--purple);border:1px solid #3b3360;background:rgba(167,139,250,.1);
+    border-radius:5px;padding:0 5px;margin-left:6px}
+  .cands-foot{display:flex;align-items:center;gap:10px;padding:8px 9px 4px;border-top:1px solid var(--line);margin-top:6px}
+  .cands-foot .m{font-size:11px;color:var(--dim);flex:1}
+  .link{background:none;border:none;color:var(--accent);font-size:11.5px;cursor:pointer;font-family:inherit;padding:4px 6px;border-radius:6px}
+  .link:hover{background:rgba(110,168,254,.1)}
+
+  /* ============ 卡片 ============ */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(276px,1fr));gap:16px;margin-bottom:44px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;cursor:pointer;transition:.18s;position:relative;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);border-color:#374052;box-shadow:0 14px 34px -18px #000}
+  .card.suspect{border-color:#4a2f2f}
+  .thumb{position:relative;height:150px;background:linear-gradient(145deg,#1a2030,#10141c);overflow:hidden}
+  .thumb .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:50px;font-weight:800;color:#2b3446;letter-spacing:2px;user-select:none}
+  .thumb img{position:relative;width:100%;height:100%;object-fit:contain;padding:10px;background:#0d1117}
+  .thumb img.broken{display:none}
+  .rank{position:absolute;left:10px;top:10px;z-index:2;background:rgba(10,12,16,.8);
+    border:1px solid var(--line);color:var(--muted);font-size:11px;padding:2px 7px;border-radius:6px;font-variant-numeric:tabular-nums}
+  .src{position:absolute;right:10px;top:10px;z-index:2;font-size:11px;padding:2px 7px;border-radius:6px;
+    border:1px solid transparent;backdrop-filter:blur(6px)}
+  .src.zol{background:rgba(110,168,254,.14);color:#a9c8ff;border-color:rgba(110,168,254,.3)}
+  .src.jd{background:rgba(61,220,151,.13);color:#7ff0bd;border-color:rgba(61,220,151,.28)}
+  .body{padding:13px 15px 14px;display:flex;flex-direction:column;flex:1}
+  .row1{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);min-height:18px}
+  .row1 .brand{color:#c3cbd9;font-weight:600}
+  .chip{border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:11px;color:var(--dim)}
+  .model{font-size:13.5px;font-weight:600;line-height:1.45;margin:5px 0 9px;height:39px;overflow:hidden;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .price{font-size:23px;font-weight:700;letter-spacing:-.6px;color:var(--green);font-variant-numeric:tabular-nums}
+  .price .pre{font-size:10.5px;font-weight:500;color:var(--dim);letter-spacing:0;margin-left:6px}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+  .tag{font-size:10.5px;font-weight:500;border-radius:5px;padding:1px 6px;letter-spacing:0;border:1px solid}
+  .tag.amber{color:var(--amber);background:rgba(245,185,66,.1);border-color:rgba(245,185,66,.28)}
+  .tag.red{color:#ff9b9b;background:rgba(255,107,107,.1);border-color:rgba(255,107,107,.3)}
+  .tag.green{color:#7ff0bd;background:rgba(61,220,151,.1);border-color:rgba(61,220,151,.28)}
+  .cap{font-size:11.5px;color:var(--dim);margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ref-line{font-size:11.5px;margin-top:5px;color:var(--muted)}
+  .up{color:var(--red)} .down{color:var(--green)} .flat{color:var(--dim)}
+
+  /* ============ 第三方参考 ============ */
+  .ref-sec{margin:8px 0 52px;border:1px solid #2b2540;border-radius:18px;
+    background:linear-gradient(180deg,rgba(38,30,58,.55),rgba(17,20,27,.6));padding:22px 22px 18px}
+  .ref-head{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  .ref-head h2{margin:0;font-size:17px;letter-spacing:.2px}
+  .badge3{font-size:11px;border:1px solid #4b3f6e;color:#bfa9f0;background:rgba(124,97,204,.14);
+    border-radius:6px;padding:2px 8px}
+  .ref-head .range{margin-left:auto;font-size:12px;color:var(--muted)}
+  .ref-sub{font-size:12.5px;color:var(--dim);margin:6px 0 18px;line-height:1.65}
+  .ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px}
+  .rser{background:rgba(12,15,21,.6);border:1px solid #262c3b;border-radius:12px;padding:12px 13px}
+  .rser .h{display:flex;align-items:center;gap:8px}
+  .rser .nm{font-weight:650;font-size:13px}
+  .rser .dlt{margin-left:auto;font-size:11.5px}
+  .rser .spark{margin:6px 0 8px}
+  .rser .plat{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}
+  .rser .plat div{background:#0e1218;border:1px solid #1e2532;border-radius:6px;padding:4px 5px;text-align:center}
+  .rser .plat .pn{font-size:9.5px;color:var(--dim);line-height:1.3}
+  .rser .plat .pv{font-size:11.5px;font-weight:600;color:#c9d3e2;margin-top:1px;font-variant-numeric:tabular-nums}
+  .rser .foot{display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim);margin-top:8px;gap:6px}
+  .disclaim{margin-top:16px;padding-top:12px;border-top:1px dashed #342c4c;font-size:11.5px;color:#9c93b5}
+
+  /* ============ 弹层 ============ */
+  .overlay{position:fixed;inset:0;z-index:90;background:rgba(5,7,10,.72);backdrop-filter:blur(4px);
+    display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto}
+  .sheet{width:100%;max-width:780px;background:var(--panel);border:1px solid #2b3345;border-radius:16px;
+    box-shadow:0 40px 90px -30px #000;animation:pop .18s ease-out}
+  @keyframes pop{from{transform:translateY(10px);opacity:.6}to{transform:none;opacity:1}}
+  .sheet-h{display:flex;gap:16px;padding:18px 20px;border-bottom:1px solid var(--line);align-items:flex-start;
+    position:sticky;top:0;background:var(--panel);border-radius:16px 16px 0 0;z-index:2}
+  .sheet-h .t{flex:1;min-width:0}
+  .sheet-h h3{margin:0;font-size:16px;line-height:1.4}
+  .sheet-h .s{margin-top:5px;font-size:12px;color:var(--muted)}
+  .x{cursor:pointer;border:none;background:#1b2130;color:var(--muted);width:30px;height:30px;
+    border-radius:8px;font-size:16px;line-height:1;flex:none}
+  .x:hover{background:#252d3f;color:#fff}
+  .sheet-b{padding:18px 20px 22px}
+  .big-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .big-price .p{font-size:34px;font-weight:750;color:var(--green);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  .big-price .m{font-size:12px;color:var(--dim)}
+  .m-hero{display:grid;grid-template-columns:250px 1fr;gap:18px;align-items:start}
+  .m-pic{position:relative;height:190px;border:1px solid var(--line);border-radius:12px;
+    background:linear-gradient(145deg,#151b26,#0d1117);overflow:hidden}
+  .m-pic a{display:block;width:100%;height:100%}
+  .m-pic img{width:100%;height:100%;object-fit:contain;padding:8px;transition:transform .2s}
+  .m-pic a:hover img{transform:scale(1.04)}
+  .m-pic img.broken{display:none}
+  .m-pic .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:54px;font-weight:800;color:#2b3446;user-select:none}
+  .m-pic .m-zoom{position:absolute;right:8px;bottom:8px;font-size:10px;color:var(--dim);
+    background:rgba(10,12,16,.72);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  .m-pic .m-noimg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:var(--dim);font-size:12px}
+  .m-brand{font-size:12px;color:var(--muted);margin-top:9px}
+  .noprice{font-size:17px;font-weight:600;color:var(--dim)}
+  .price-row{display:flex;align-items:center;gap:10px;justify-content:space-between}
+  .btn.xs{padding:4px 9px;font-size:11px;border-radius:7px}
+  .jd-sub{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .ref-price{font-size:11.5px;color:var(--dim);margin-top:4px}
+  .match-item{background:#0e1219;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .match-item .mt{font-size:13px;font-weight:600;margin-bottom:8px}
+  .match-item .mc{display:flex;gap:8px;flex-wrap:wrap}
+  .match-item .mc .btn{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .price .pre.cut{color:#9fd0ff}
+  .was{font-size:11.5px;color:var(--dim);margin-top:6px}
+  .was s{color:#6b7280}
+  @media (max-width:640px){.m-hero{grid-template-columns:1fr}.m-pic{height:170px}}
+
+  /* 四档价格 */
+  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}
+  .tier{background:#0e1219;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .tier .k{font-size:10.5px;color:var(--dim);letter-spacing:.4px}
+  .tier .v{font-size:16px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+  .tier .s{font-size:10.5px;color:var(--dim);margin-top:2px}
+  .tier.main .v{color:var(--green)}
+  .tier.coupon .v{color:#9fd0ff}
+  .tier.hint .v{color:var(--amber);font-size:12.5px;font-weight:500;line-height:1.45}
+  .tier.cond .v{font-size:13px;font-weight:600;color:#c9b6ff}
+  .cq{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+  .cq-note{font-size:12px;color:var(--dim);line-height:1.75;background:#0c1017;border:1px dashed var(--line);
+    border-radius:9px;padding:9px 12px;margin-top:8px}
+  .cq-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .auto{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);
+    border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 10px;white-space:nowrap}
+  .auto b{color:var(--green);font-variant-numeric:tabular-nums;min-width:16px;text-align:right}
+  .auto.off{color:var(--dim)} .auto.off b{color:var(--dim)}
+  .auto button{border:none;background:none;color:var(--accent);font-size:11.5px;cursor:pointer;font-family:inherit;padding:0 2px}
+  .btn.has{border-color:#4b3f6e;color:#c9b6ff}
+  .cq-list{display:flex;flex-direction:column;gap:8px}
+  .cq-item{display:flex;align-items:center;gap:10px;background:#0e1219;border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+  .cq-item .n{flex:1;min-width:0;font-size:12.5px}
+  .cq-item .m{font-size:11px;color:var(--dim);margin-top:4px;line-height:1.8}
+  .cq-chip{font-size:11px;border:1px solid #3b3360;background:rgba(167,139,250,.1);color:#c9b6ff;
+    border-radius:6px;padding:1px 7px;margin-right:4px;white-space:nowrap}
+  .btn.sm{padding:6px 11px;font-size:12px}
+
+  .caliber{margin-top:10px;font-size:11.5px;color:var(--dim);background:#0c1017;border:1px solid var(--line);
+    border-radius:8px;padding:7px 11px;line-height:1.6}
+  .kv{display:grid;grid-template-columns:92px 1fr;gap:6px 12px;font-size:12.5px;margin-top:14px;
+    background:#0e1219;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .kv .k{color:var(--dim)}
+  .sec-t{font-size:12px;color:var(--muted);letter-spacing:.5px;margin:22px 0 10px;font-weight:600}
+  .chart-wrap{position:relative;background:#0c1017;border:1px solid var(--line);border-radius:12px;padding:10px 6px 2px}
+  .chart-legend{font-size:11px;color:var(--dim);padding:0 8px 8px;display:flex;gap:14px;flex-wrap:wrap}
+  .nocp{display:inline-block;align-self:flex-start;width:fit-content;margin:4px 0 0;font-size:10.5px;color:#f0b37e;border:1px solid rgba(240,179,126,.35);border-radius:999px;padding:1px 7px}
+  .chart-modes{display:flex;gap:6px;padding:0 8px 8px}
+  .chart-modes button{font:inherit;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:#111722;color:var(--dim);cursor:pointer}
+  .chart-modes button.on{background:#1b2736;color:#cfe0ff;border-color:#3b5a86}
+  .chart-tip{position:absolute;pointer-events:none;background:#1d2433;border:1px solid #38425a;color:#e7eaf0;
+    font-size:11.5px;padding:5px 9px;border-radius:7px;white-space:nowrap;transform:translate(-50%,-140%);
+    opacity:0;transition:opacity .1s;z-index:5}
+  .empty{padding:34px 10px;text-align:center;color:var(--dim);font-size:12.5px}
+  table.lst{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.lst th{text-align:left;color:var(--dim);font-weight:500;font-size:11.5px;padding:6px 8px;
+    border-bottom:1px solid var(--line)}
+  table.lst td{padding:8px;border-bottom:1px solid #1a2029}
+  table.lst tr:last-child td{border-bottom:none}
+  .pill{font-size:10.5px;padding:1px 6px;border-radius:5px;border:1px solid var(--line);color:var(--muted)}
+  .reasons{font-size:12.5px;color:var(--muted);background:#0e1219;border:1px solid var(--line);
+    border-radius:10px;padding:11px 13px;line-height:1.75}
+  .reasons b{color:var(--green)}
+  .reasons .no{color:var(--dim)}
+
+  /* ============ 页脚 ============ */
+  footer{border-top:1px solid var(--line);padding:26px 0 60px;color:var(--dim);font-size:12px;line-height:1.9}
+  footer summary{cursor:pointer;color:var(--muted);margin-bottom:8px}
+  footer code{background:#161b24;padding:1px 5px;border-radius:4px;color:#aab4c6;font-size:11.5px}
+
+  /* ============ toast ============ */
+  #toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:120;
+    background:#1d2433;border:1px solid #38425a;color:#e7eaf0;padding:10px 18px;border-radius:10px;
+    font-size:13px;opacity:0;transition:.22s;pointer-events:none;box-shadow:0 12px 30px -10px #000;max-width:90vw}
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:820px){
+    .hero{grid-template-columns:repeat(2,1fr)}
+    .top-meta .hide-s{display:none}
+    .wrap{padding:0 14px}
+  }
+
+  .promise{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}
+  .promise span{font-size:12px;color:var(--muted);border:1px solid var(--line);background:var(--panel);
+    border-radius:999px;padding:4px 12px}
+  .site-disclaim{font-size:11.5px;color:var(--dim);line-height:1.7;margin:0 0 10px}
+  .hist-line{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .scroll-hint{font-size:11px;color:var(--dim);margin-top:10px}
+  .groups{margin:22px 0 6px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px 16px}
+  .groups h2{margin:0 0 6px;font-size:15px}
+  .groups .sub{font-size:12px;color:var(--dim);font-weight:400;margin-left:8px}
+  .grow{border-top:1px solid var(--line);padding:10px 2px}
+  .grow summary{cursor:pointer;display:flex;gap:10px;align-items:center;font-size:13px;list-style:none}
+  .grow summary::-webkit-details-marker{display:none}
+  .grow .spread{margin-left:auto;color:var(--green);font-weight:650;font-variant-numeric:tabular-nums}
+  .gitem{display:flex;gap:10px;font-size:12.5px;padding:5px 0 5px 16px;color:var(--muted)}
+  .gitem .p{margin-left:auto;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+  .gitem.best .p{color:var(--green)}
+  .dev-only{display:none !important}
+  body.dev .dev-only{display:inline-flex !important}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     顶栏：数据时间 + 刷新
+     ============================================================ -->
+<header class="top">
+  <div class="wrap top-in">
+    <div class="logo"><span class="dot"></span><span id="siteName">京东硬件价格追踪</span> <small id="siteTagline">不止告诉你现在多少钱，还告诉你这个价值不值得买</small></div>
+    <div class="top-meta">
+      <span class="hide-s">数据 <b id="genAt" class="mono">加载中…</b></span>
+      <span class="auto" id="autoPill" title="每 30 秒自动检查一次数据">
+        自动 <b id="autoSec">30</b>s
+        <button type="button" id="autoToggle">暂停</button>
+      </span>
+      <button class="btn" id="matchBtn" type="button" title="京东对应关系待确认">配对审核</button>
+      <button class="btn" id="refJump" type="button" title="查看 B 站显卡日报的 7 天行情">第三方参考</button>
+      <span class="status" id="statusPill"><span class="spin"></span><span id="statusText">更新中…</span></span>
+      <button class="btn dev-only" id="refreshBtn" title="只采 ZOL，不刷京东价">更新参考价</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- 口径提示 -->
+  <div class="notice" id="notice">
+    <span class="i">!</span>
+    <span id="noticeText"><b>主价 = 京东自营实时抓取价；参考价 = ZOL 第三方汇总，可能滞后。</b>
+      京东没有对应商品的，主价显示「无价格信息」；每张卡都可单独「更新价格」。</span>
+  </div>
+
+
+
+  <!-- 卖点行：来自 snapshot.site.promise（过滤掉含“券”的那条） -->
+  <div class="promise" id="promise"></div>
+
+  <!-- 概览 -->
+  <div class="hero">
+    <div class="stat"><div class="k">在售商品</div><div class="v"><span id="s1">-</span><small>款</small></div></div>
+    <div class="stat"><div class="k">有京东实时价</div><div class="v"><span id="s2">-</span><small>款</small></div></div>
+    <div class="stat"><div class="k">价格历史点</div><div class="v"><span id="s3">-</span><small>个</small></div></div>
+    <div class="stat"><div class="k">同型号分组</div><div class="v"><span id="s4">-</span><small id="s4s">组</small></div></div>
+  </div>
+
+  <!-- 品类切换：名字来自 snapshot.category_names，空品类不出现 -->
+  <div class="cats" id="cats"></div>
+
+  <!-- 工具条：搜索（走后端 /api/search） -->
+  <div class="toolbar">
+    <div class="search" id="searchBox">
+      <span class="ic">⌕</span>
+      <input id="q" type="search" placeholder="输入商品名，如：索泰 4070 SUPER" autocomplete="off" />
+      <button class="clr" id="qClear" hidden aria-label="清空">×</button>
+
+      <!-- 候选卡片：点选后 POST /api/alias 再跳详情 -->
+      <div class="cands" id="cands" hidden>
+        <div id="candList"></div>
+        <div class="cands-foot">
+          <span class="m" id="candMeta"></span>
+          <button class="link" id="candReject">都不对</button>
+        </div>
+      </div>
+    </div>
+
+    <select id="sort">
+      <option value="price_asc">价格：低 → 高</option>
+      <option value="price_desc">价格：高 → 低</option>
+      <option value="hist_desc">历史点数：多 → 少</option>
+    </select>
+    <span class="hint" id="hint"></span>
+  </div>
+
+  <!-- 同款比一比（model_groups） -->
+  <section class="groups" id="groupsSec" hidden>
+    <h2>同款比一比 <span class="sub">同型号不同品牌，价差多少</span></h2>
+    <div id="groupsList"></div>
+  </section>
+
+  <!-- 商品卡片列表 -->
+  <main class="grid" id="grid"></main>
+
+  <!-- 第三方参考（独立区块，不与主表混排） -->
+  <section class="ref-sec" id="refSec" hidden>
+    <div class="ref-head">
+      <h2>第三方参考：B站「显卡日报」</h2>
+      <span class="badge3">非本站实测</span>
+      <span class="range" id="refRange"></span>
+    </div>
+    <p class="ref-sub" id="refSub"></p>
+    <div class="ref-grid" id="refGrid"></div>
+    <div class="disclaim">
+      数据为第三方整理，非本站实测；型号粒度到“系列”，与本页的具体品牌/型号不是同一口径，
+      <b>仅供参考，不参与主价排序</b>。
+    </div>
+  </section>
+
+  <footer>
+    <p id="siteDisclaimer" class="site-disclaim"></p>
+    <details>
+      <summary>数据说明与接入方式（评委问“数据哪来的”时看这里）</summary>
+      <p>
+        所有金额字段单位是<b>分</b>（<code>529900</code> = ￥5299.00），显示时统一 <code>/100</code>；时间统一为
+        <code>+08:00</code> 的 ISO 字符串。<br/>
+        <code>generated_at</code> 是<b>数据采集时间</b>（不是导出时间），刷新后它变了才代表真的抓到新价格。<br/>
+        口径：<code>account_kind</code>（anon 未登录 / nonplus 普通用户 / plus 会员）、
+        <code>coupon_scope</code>（none 券前 / auto 自动叠加 / claim 需手动领）。<br/>本版<b>不计算个人折扣券</b>，页面主价旁已标注“未计算折扣券”。<br/>
+        <code>confidence = partial</code> 表示单源或未登录，不参与排名。<br/>
+        <code>deal.price_flag</code> 非空表示价格存疑（与第三方参考偏离过大），不参与排名。<br/>
+        好价判定由数据侧计算（<code>deal.is_good_deal</code>），前端只展示不重算。
+      </p>
+      <p>
+        前端预留了<b>数据接入层</b>：后端字段改名、金额单位变化、增加券/运费等新字段，只需改页面里的
+        <code>FIELD</code> 映射表和 <code>Adapter</code>，不需要动渲染代码。详见
+        <code>docs/前端数据接入说明.md</code>。
+      </p>
+    </details>
+  </footer>
+</div>
+
+<!-- 商品详情弹层 -->
+<div class="overlay" id="matchDrawer" hidden>
+  <div class="sheet" style="max-width:760px" role="dialog" aria-modal="true" aria-label="京东配对审核">
+    <div class="sheet-h">
+      <div class="t"><h3>京东配对审核</h3><div class="s">给商品确认对应的京东 SKU；确认后刷新即可看到京东价</div></div>
+      <button class="x" id="matchClose" aria-label="关闭">×</button>
+    </div>
+    <div class="sheet-b" id="matchBody"></div>
+  </div>
+</div>
+
+<div class="overlay" id="couponDrawer" hidden>
+  <div class="sheet" style="max-width:640px" role="dialog" aria-modal="true" aria-label="我的券">
+    <div class="sheet-h">
+      <div class="t"><h3>我的券</h3><div class="s" id="cdSub"></div></div>
+      <button class="x" id="cdClose" aria-label="关闭">×</button>
+    </div>
+    <div class="sheet-b" id="cdBody"></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="商品详情">
+    <div class="sheet-h">
+      <div class="t">
+        <h3 id="mTitle">—</h3>
+        <div class="s" id="mSub"></div>
+      </div>
+      <button class="x" id="mClose" aria-label="关闭">×</button>
+    </div>
+    <div class="sheet-b" id="mBody"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ================================================================
+   京东硬件价格追踪 · 前端
+   ----------------------------------------------------------------
+   分层：
+     0. CONFIG        —— 所有外部可变量（接口地址、单位、开关）
+     1. FIELD/Adapter —— 数据接入层：唯一需要随后端变化改动的地方
+     2. API           —— 接口客户端，统一 {ok,data,error}，逐级降级
+     3. Store         —— 归一化后的视图模型 + 能力开关
+     4. Render        —— 只认视图模型，不认原始 JSON
+     5. Modules       —— 扩展点：以后新增板块用 BID.register()
+   ================================================================ */
+
+/* ================================================================
+   0. 配置
+   ================================================================ */
+const CONFIG = {
+  api: {
+    snapshot: "/api/snapshot",
+    status: "/api/collect/status",
+    refresh: "/api/refresh",
+    search: "/api/search",
+    alias: "/api/alias",
+    jdPrice: "/api/jd-price",
+    jdMatch: "/api/jd-match",
+    userCoupons: "/api/user-coupons",
+    quote: "/api/quote",
+  },
+  fallbackSnapshot: "/data/snapshot.json", // 服务没起时直接读静态文件
+  cacheKey: "bid.gpu.snapshot.v2",          // 断网兜底缓存
+  moneyUnit: "cents",                       // 'cents' | 'yuan'：后端若改成元，改这一个字
+  autoDetectYuan: true,                     // 防御：msrp 被误存成"元"时自动 ×100（会在 console 警告）
+  pollingMs: 2000,
+  pollingMaxMs: 180000,
+  autoSeconds: 30,                          // 自动检查间隔
+  couponKey: "bid.gpu.coupons.v1",          // 本地券账本
+};
+
+/* ================================================================
+   1. 数据接入层
+   ----------------------------------------------------------------
+   ★ 后端"以后的数据"要接进来，只改这一段：
+     - 字段改名 → 改 FIELD 里对应数组（支持多个别名，按顺序取第一个存在的）
+     - 金额单位变 → 改 CONFIG.moneyUnit
+     - 新增字段（券、运费、会员价…）→ 在 dealVM() 里加一行映射即可
+   渲染层只消费 normalize() 的输出，永远不直接读原始字段。
+   ================================================================ */
+
+/** 字段映射表：key = 视图模型里的名字，value = 可能出现的原始字段名（按优先级） */
+const FIELD = {
+  product: {
+    id: ["id", "product_id"],
+    brand: ["brand"],
+    model: ["model", "title"],
+    storage: ["storage", "capacity"],
+    category: ["category"],
+    imageLocal: ["image_local", "imageLocal"],
+    imageUrl: ["image_url", "imageUrl"],
+    active: ["active", "is_active"],
+    jdSku: ["jd_sku", "jdSku"],
+  },
+  offer: {
+    id: ["id"],
+    productId: ["product_id", "productId"],
+    platform: ["platform", "source"],
+    price: ["price", "price_cents"],
+    capturedAt: ["captured_at", "capturedAt"],
+    accountKind: ["account_kind", "accountKind"],
+    couponScope: ["coupon_scope", "couponScope"],
+    confidence: ["confidence"],
+    inStock: ["in_stock", "inStock"],
+    region: ["region"],
+    seller: ["seller"],
+    sellerType: ["seller_type", "sellerType"],
+    url: ["url", "link"],
+  },
+  deal: {
+    productId: ["product_id", "productId"],
+    price: ["price", "price_cents"],
+    priceSource: ["price_source", "priceSource"],   // zol_reference / jd_live
+    priceLive: ["price_live", "priceLive"],          // 京东自营实时价（分，null=没有）
+    priceReference: ["price_reference", "priceReference"], // ZOL 参考价（分）
+    priceRole: ["price_role", "priceRole"],          // live / reference_only / null
+    priceAt: ["price_live_at", "live_at", "liveAt"],
+    marketMin: ["market_min", "marketMin"],
+    msrp: ["msrp", "msrp_cents"],
+    discount: ["discount_vs_msrp", "discountVsMsrp"],
+    histAvg: ["hist_avg", "histAvg"],
+    histMin: ["hist_min", "histMin"],
+    histMax: ["hist_max", "histMax"],
+    histMedian: ["hist_median", "histMedian"],
+    vsAvgPct: ["vs_avg_pct", "vsAvgPct"],
+    vsMinPct: ["vs_min_pct", "vsMinPct"],
+    atHistLow: ["at_hist_low", "atHistLow"],
+    histPoints: ["hist_points", "histPoints"],
+    points: ["points", "history_points"],
+    platformCount: ["platform_count", "platformCount"],
+    confidence: ["confidence"],
+    goodDeal: ["is_good_deal", "isGoodDeal"],
+    reasons: ["reasons"],
+    priceFlag: ["price_flag", "priceFlag"],
+    refMatch: ["reference_match", "referenceMatch"],
+
+    /* —— 以下为「未来字段」：后端一旦提供，页面自动出现对应价格档位 —— */
+    priceCoupon: ["price_coupon", "coupon_price", "priceCoupon"],   // 领券后价（分）
+    couponHint: ["coupon_hint", "couponHint"],                      // {need, threshold, amount, text}
+    priceBundle: ["price_bundle", "priceBundle"],                   // 凑单价（分）
+    pricePlus: ["price_plus", "pricePlus"],                         // PLUS 价（分）
+    pricePay: ["price_pay", "pricePay"],                            // 支付立减后价（分）
+    shipping: ["shipping"],                                        // 运费（分）
+    autoPromo: ["auto_promo", "autoPromo"],                       // 平台自动立减（分，人人可享）
+    priceNote: ["price_note", "priceNote"],                        // 自由文案
+  },
+};
+
+/** 按别名数组取第一个"存在且非 null"的值 */
+function pick(obj, keys) {
+  if (!obj) return undefined;
+  for (const k of keys) {
+    if (obj[k] !== undefined && obj[k] !== null) return obj[k];
+  }
+  return undefined;
+}
+
+/** 金额 → 分。所有金额都必须过这里，渲染层不再做二次换算 */
+function toCents(v, priceRef) {
+  if (v === undefined || v === null || v === "") return null;
+  const n = Number(v);
+  if (!Number.isFinite(n)) return null;
+  if (CONFIG.moneyUnit === "yuan") return Math.round(n * 100);
+  // 防御：历史上出现过 msrp 以"元"入库（8299 而不是 829900）。
+  // 若与现价相差 20 倍以上，判定为"元"并转换，同时在控制台留证据。
+  if (CONFIG.autoDetectYuan && priceRef && n > 0 && Number(priceRef) / n >= 20) {
+    console.warn("[adapter] 金额疑似「元」单位，已按分换算：", n, "← 现价", priceRef);
+    return Math.round(n * 100);
+  }
+  return n;
+}
+
+const Adapter = {
+  /**
+   * 原始 snapshot → 稳定视图模型
+   * @returns {{meta, products, offers, history, deals, reference}}
+   */
+  normalize(raw) {
+    const s = raw || {};
+    const products = (s.products || []).map((p) => {
+      const f = FIELD.product;
+      const id = Number(pick(p, f.id));
+      const brand = pick(p, f.brand) || null;
+      const local = pick(p, f.imageLocal) || null;
+      return {
+        id,
+        brand,
+        model: pick(p, f.model) || "",
+        displayName: pick(p, ["display_name", "displayName"]) || pick(p, f.model) || "",
+        storage: pick(p, f.storage) || null,
+        category: pick(p, f.category) || "vga",
+        active: pick(p, f.active) !== 0,
+        // 本地图优先；没有本地图退回网图；都没有则为 null，由卡片画占位块
+        image: local || pick(p, f.imageUrl) || null,
+        imageLocal: local,
+        imageUrl: pick(p, f.imageUrl) || null,
+        jdSku: pick(p, f.jdSku) || null,
+        raw: p, // 保留原始对象，未来字段不至于丢失
+      };
+    }).filter((p) => Number.isFinite(p.id));
+
+    // 报价：按 product_id 分组
+    const offers = new Map();
+    for (const o of s.latest || []) {
+      const f = FIELD.offer;
+      const pid = Number(pick(o, f.productId));
+      if (!Number.isFinite(pid)) continue;
+      const vm = {
+        productId: pid,
+        platform: pick(o, f.platform) || "unknown",
+        price: toCents(pick(o, f.price)),
+        capturedAt: pick(o, f.capturedAt) || null,
+        accountKind: pick(o, f.accountKind) || null,
+        couponScope: pick(o, f.couponScope) || null,
+        confidence: pick(o, f.confidence) || "partial",
+        inStock: pick(o, f.inStock) ?? null,
+        region: pick(o, f.region) || null,
+        seller: pick(o, f.seller) || null,
+        sellerType: pick(o, f.sellerType) || null,
+        url: pick(o, f.url) || null,
+      };
+      if (!offers.has(pid)) offers.set(pid, []);
+      offers.get(pid).push(vm);
+    }
+    // 同一商品多平台时按价格升序，第一项即"当前展示价"
+    for (const list of offers.values()) list.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+
+    // 历史：按平台分别保留（F6 要求不同平台不同色）
+    const history = new Map();
+    for (const h of s.history || []) {
+      const pid = Number(pick(h, FIELD.offer.productId));
+      const pts = h.points || [];
+      if (!Number.isFinite(pid) || !pts.length) continue;
+      const vm = {
+        platform: h.platform || "unknown",
+        points: pts.map(([iso, cents]) => ({ iso, t: Date.parse(iso), v: Number(cents) }))
+          .filter((p) => Number.isFinite(p.t) && Number.isFinite(p.v))
+          .sort((a, b) => a.t - b.t),
+      };
+      const entry = history.get(pid) || { platform: vm.platform, points: [], series: [] };
+      entry.series.push(vm);
+      if (vm.points.length > entry.points.length) {
+        entry.points = vm.points;
+        entry.platform = vm.platform;
+      }
+      history.set(pid, entry);
+    }
+    for (const entry of history.values()) entry.series.sort((a, b) => b.points.length - a.points.length);
+
+    // 好价 / 价格存疑 / 四档价格
+    const deals = new Map();
+    for (const d of s.deal || []) {
+      const vm = Adapter.dealVM(d, offers.get(Number(pick(d, FIELD.deal.productId))) || []);
+      if (vm) deals.set(vm.productId, vm);
+    }
+
+    return {
+      meta: {
+        dataAt: s.generated_at || null,      // 数据采集时间（判断"刷新是否真的更新"看这个）
+        jdAt: (() => {                        // 最新一次京东抓取时间（单独时间轴）
+          let t = null;
+          for (const list of offers.values()) for (const o of list) {
+            if (o.platform === "jd" && o.capturedAt && (!t || o.capturedAt > t)) t = o.capturedAt;
+          }
+          return t;
+        })(),
+        exportedAt: s.exported_at || null,   // 导出时间
+        counts: s.counts || {},
+        categoryNames: s.category_names || {},
+        runs: s.collect_runs || [],
+        site: s.site || null,
+      },
+      products,
+      offers,
+      history,
+      deals,
+      reference: Adapter.referenceVM(s.reference),
+      modelGroups: (s.model_groups || []).map((g) => ({
+        key: g.key,
+        label: g.label || g.key || "",
+        count: g.count || (g.items || []).length,
+        liveCount: g.live_count ?? 0,
+        minLive: toCents(g.min_live),
+        maxLive: toCents(g.max_live),
+        spread: toCents(g.spread),
+        items: (g.items || []).map((x) => ({
+          productId: Number(x.product_id),
+          brand: x.brand || "",
+          model: x.model || "",
+          priceLive: toCents(x.price_live),
+          priceReference: toCents(x.price_reference),
+        })),
+      })),
+    };
+  },
+
+  /** 单条 deal → 视图模型（含四档价格的映射） */
+  dealVM(d, offers) {
+    const f = FIELD.deal;
+    const pid = Number(pick(d, f.productId));
+    if (!Number.isFinite(pid)) return null;
+    const legacy = toCents(pick(d, f.price));
+    const live = toCents(pick(d, f.priceLive), legacy);
+    // 京东价时间：优先专用字段，其次取 jd 那条报价的 captured_at
+    const liveAt = pick(d, f.priceAt)
+      || ((offers || []).find((o) => o.platform === "jd") || {}).capturedAt
+      || null;
+    // 新契约：price_reference 是 ZOL；旧数据没有它时，把原来的 price 当参考价
+    const refRaw = toCents(pick(d, f.priceReference), legacy);
+    const ref = refRaw != null ? refRaw : (live == null ? legacy : null);
+    const role = pick(d, f.priceRole) || (live != null ? "live" : ref != null ? "reference_only" : null);
+    // 兼容：详情/券后价仍以“主价”指代京东价
+    const price = live != null ? live : ref;
+    const msrp = toCents(pick(d, f.msrp), price);
+    const flag = pick(d, f.priceFlag) || null;
+
+    // —— 四档价格 ——
+    // 主价永远有（券前价）；其余三档"有数据才出现"，没有就 null，UI 自动隐藏
+    const tiers = {
+      main: price,                                                   // 主价：券前 / 单件 / 普通用户
+      coupon: toCents(pick(d, f.priceCoupon), price),                // 副价：领券后
+      hint: pick(d, f.couponHint) || null,                           // 提示：门槛未满足的券
+      bundle: toCents(pick(d, f.priceBundle), price),                // 条件价：凑 N 件
+      plus: toCents(pick(d, f.pricePlus), price),                    // 条件价：会员
+      pay: toCents(pick(d, f.pricePay), price),                      // 条件价：支付立减
+    };
+    const hasConditional = tiers.bundle != null || tiers.plus != null || tiers.pay != null;
+
+    // 口径：优先用 offer 上的真实抓取信息
+    const o = offers && offers[0];
+    const caliber = {
+      couponScope: (o && o.couponScope) || "none",
+      accountKind: (o && o.accountKind) || "nonplus",
+      region: (o && o.region) || null,
+    };
+
+    return {
+      productId: pid,
+      price,
+      live,
+      liveAt,
+      ref,
+      role,
+      priceSource: pick(d, f.priceSource) || "zol_reference",
+      autoPromo: toCents(pick(d, f.autoPromo), price) || 0,
+      marketMin: toCents(pick(d, f.marketMin)),
+      msrp,
+      discount: pick(d, f.discount) ?? null,
+      histAvg: toCents(pick(d, f.histAvg)),
+      histMin: toCents(pick(d, f.histMin)),
+      histMax: toCents(pick(d, f.histMax)),
+      histMedian: toCents(pick(d, f.histMedian)),
+      vsAvgPct: pick(d, f.vsAvgPct) ?? null,
+      vsMinPct: pick(d, f.vsMinPct) ?? null,
+      atHistLow: !!pick(d, f.atHistLow),
+      histPoints: pick(d, f.histPoints) ?? pick(d, f.points) ?? 0,
+      points: pick(d, f.points) ?? 0,
+      platformCount: pick(d, f.platformCount) ?? (offers ? offers.length : 0),
+      confidence: pick(d, f.confidence) || "partial",
+      goodDeal: !!pick(d, f.goodDeal),
+      reasons: pick(d, f.reasons) || [],
+      flag: flag ? {
+        type: flag.flag || flag.type || "suspect",
+        devPct: flag.dev_pct ?? flag.devPct ?? null,
+        why: flag.why || "",
+      } : null,
+      tiers,
+      hasConditional,
+      caliber,
+      refMatch: pick(d, f.refMatch) || null,
+      note: pick(d, f.priceNote) || null,
+    };
+  },
+
+  /** 第三方参考 → 视图模型（金额统一转分；平台名直接用后端给的） */
+  referenceVM(ref) {
+    if (!ref || !Array.isArray(ref.series) || !ref.series.length) return null;
+    return {
+      source: ref.source || "第三方参考",
+      note: ref.note || "",
+      platformNames: ref.platform_names || { jd: "京东", tb: "淘宝", pdd: "拼多多", yin: "抖音" },
+      dates: ref.dates || [],
+      series: ref.series.map((s) => ({
+        model: s.model,
+        points: (s.points || []).slice().sort((a, b) => String(a.date).localeCompare(String(b.date))),
+      })),
+    };
+  },
+
+  /** 能力探测：数据里"有什么"，UI 据此显隐（新数据一到，对应模块自动亮起） */
+  capabilities(vm) {
+    const deals = [...vm.deals.values()];
+    return {
+      hasCoupons: deals.some((d) => d.tiers.coupon != null || d.tiers.hint),
+      hasConditional: deals.some((d) => d.hasConditional),
+      hasPriceFlag: deals.some((d) => d.flag),
+      hasGoodDeal: deals.some((d) => d.goodDeal),
+      hasReference: !!vm.reference,
+      hasMultiPlatform: [...vm.offers.values()].some((l) => l.length > 1),
+      hasHistory: [...vm.history.values()].some((h) => h.points.length >= 2),
+      hasImages: vm.products.some((p) => !!p.image),
+    };
+  },
+};
+
+/* ================================================================
+   2. API 客户端
+   ----------------------------------------------------------------
+   统一 {ok, data, error}；网络失败不抛给 UI，返回 {ok:false}。
+   ================================================================ */
+const API = {
+  async request(url, opt = {}) {
+    try {
+      const r = await fetch(url, { cache: "no-store", ...opt });
+      const j = await r.json();
+      if (j && typeof j.ok === "boolean") return j;
+      return { ok: false, data: null, error: { code: "BAD_RESPONSE", message: "返回格式不对" } };
+    } catch (e) {
+      return { ok: false, data: null, error: { code: "NETWORK", message: "网络不可用" } };
+    }
+  },
+  snapshot() { return this.request(CONFIG.api.snapshot); },
+  status() { return this.request(CONFIG.api.status); },
+  refresh() { return this.request(CONFIG.api.refresh, { method: "POST" }); },
+  search(q) { return this.request(CONFIG.api.search + "?q=" + encodeURIComponent(q)); },
+  saveCoupons(sku, coupons) {
+    return this.request(CONFIG.api.userCoupons, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ sku, coupons }),
+    });
+  },
+  userCoupons(sku) {
+    return this.request(CONFIG.api.userCoupons + "?sku=" + encodeURIComponent(sku));
+  },
+  quote(body) {
+    return this.request(CONFIG.api.quote, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  },
+  alias(rawTitle, productId) {
+    return this.request(CONFIG.api.alias, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ raw_title: rawTitle, product_id: productId }),
+    });
+  },
+  jdPrice(productId) {
+    return this.request(CONFIG.api.jdPrice + "?product_id=" + encodeURIComponent(productId));
+  },
+  jdMatch(status) {
+    return this.request(CONFIG.api.jdMatch + "?status=" + encodeURIComponent(status || "review"));
+  },
+  confirmMatch(productId, jdSku) {
+    return this.request(CONFIG.api.jdMatch, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ product_id: productId, jd_sku: jdSku }),
+    });
+  },
+};
+
+/* ================================================================
+   3. Store / 状态
+   ================================================================ */
+const CHART = new Map(); // productId -> { series, priceFlat, hasJD }（平台切换重绘用）
+const state = {
+  raw: null,        // 原始快照（调试/备用）
+  vm: null,         // 归一化视图模型
+  caps: null,       // 能力开关
+  offline: false,
+  q: "",
+  sort: "price_asc",
+  category: "all",     // 当前品类（all = 全部）
+  quotes: new Map(),   // productId -> 券后价结果
+  jd: new Map(),       // productId -> { status, price, at, lastPrice, ts }
+  cands: [],        // 搜索候选
+  candIds: null,    // 后端候选对应的商品 id：有值时列表只显示这些，和候选面板保持一致
+  candIndex: -1,
+  searching: false,
+  pollTimer: null,
+  pollStart: 0,
+  pollToken: 0,
+  refreshStartedAt: null,   // 本次刷新在服务端的 started_at，用来认领 last_refresh
+  couponBook: new Map(),    // sku -> { coupons, at, source, pid }
+  autoOn: true,
+  autoNext: 30,
+  autoTimer: null,
+};
+
+const $ = (id) => document.getElementById(id);
+
+/* ---------------- 基础工具 ---------------- */
+function esc(v) {
+  return String(v == null ? "" : v).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+/** 分 → ￥5,299.00 */
+function money(cents) {
+  if (cents == null || !Number.isFinite(Number(cents))) return "—";
+  return "￥" + (Number(cents) / 100).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+/** 分 → 5,299（参考区块用，紧凑） */
+function money0(cents) {
+  if (cents == null) return "—";
+  return (Number(cents) / 100).toLocaleString("zh-CN", { maximumFractionDigits: 0 });
+}
+/** 2026-10-18T21:08:49+08:00 → 10-18 21:08 */
+function fmtTime(iso, withDate = true) {
+  if (!iso) return "—";
+  const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if (!m) return String(iso);
+  return (withDate ? m[2] + "-" + m[3] + " " : "") + m[4] + ":" + m[5];
+}
+function fmtDate(iso) {
+  const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? m[1] + "-" + m[2] + "-" + m[3] : "—";
+}
+function escapeRe(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+let toastTimer = null;
+function toast(msg, ms = 2800) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.add("on");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("on"), ms);
+}
+
+const COUPONS_ENABLED = false; // 券后价已下线：只展示京东页面价 + 标注“未计算折扣券”
+const PLATFORM_NAME = { zol: "中关村在线 ZOL", jd: "京东", tb: "淘宝", pdd: "拼多多", yin: "抖音", bili: "第三方·B站显卡日报" };
+const ACCOUNT_NAME = { anon: "未登录（游客）", nonplus: "普通用户", plus: "PLUS 会员" };
+const COUPON_NAME = { none: "券前价", auto: "含自动叠加券", claim: "含需手动领取的券" };
+
+/* ================================================================
+   4. 渲染
+   ================================================================ */
+
+/** 口径行：主价永远是"券前价 · 单件 · 普通用户 · 不含券 · 不含支付优惠" */
+function caliberText(deal) {
+  const c = (deal && deal.caliber) || {};
+  const parts = [
+    c.couponScope === "none" ? "券前价" : (COUPON_NAME[c.couponScope] || "券前价"),
+    "单件",
+    ACCOUNT_NAME[c.accountKind] || "普通用户",
+    c.couponScope === "none" ? "不含券" : "含券",
+    "不含支付优惠",
+  ];
+  return parts.join(" · ");
+}
+
+/** 标签组：单源 / 价格存疑 / 好价 */
+function tagsHTML(deal) {
+  const tags = [];
+  if (deal && deal.flag) {
+    tags.push(`<span class="tag red" title="${esc(deal.flag.why)}">价格存疑</span>`);
+  }
+  if (!deal || deal.confidence !== "ok") {
+    tags.push(`<span class="tag amber">单源 / 未含券</span>`);
+  }
+  if (deal && deal.goodDeal) {
+    tags.push(`<span class="tag green">好价</span>`);
+  }
+  return tags.length ? `<div class="tags">${tags.join("")}</div>` : "";
+}
+
+function refTrend(deal) {
+  const r = deal && deal.refMatch;
+  if (!r) return "";
+  const pct = r.ref_change_pct ?? r.refChangePct;
+  if (pct == null) return "";
+  const cls = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+  const arrow = pct > 0 ? "↑" : pct < 0 ? "↓" : "→";
+  return `<div class="ref-line">参考系列 <b>${esc(r.ref_model || "")}</b> · 近 ${r.ref_days ?? 7} 天
+    <span class="${cls}">${arrow} ${pct > 0 ? "+" : ""}${pct}%</span> <span class="flat">（系列级）</span></div>`;
+}
+
+/** 卡片 */
+/** 主价视图：京东实时价优先；没有就是"无价格信息"，绝不用 ZOL 价顶替 */
+function priceView(p, deal) {
+  const jd = state.jd.get(p.id) || null;
+  const live = jd && jd.status === "ok" ? jd.price : (deal ? deal.live : null);
+  const liveAt = jd && jd.status === "ok" ? jd.at : (deal ? deal.liveAt : null);
+  const ref = deal ? deal.ref : null;
+  const isLive = live != null;
+  const main = live;                  // 主价只认京东实时价；没有就是“无价格信息”
+  return { live, liveAt, ref, main, isLive, jd };
+}
+
+function jdSubLine(p, v) {
+  if (v.isLive) return v.liveAt ? "京东自营 · 更新于 " + fmtTime(v.liveAt) : "京东自营实时价";
+  const jd = v.jd;
+  if (jd && jd.status === "loading") return "正在获取京东价…";
+  if (jd && jd.status === "failed" && jd.lastPrice != null) {
+    return "本次未抓到 · 上次 " + money(jd.lastPrice) + "（" + fmtTime(jd.lastAt) + "）";
+  }
+  return "暂无京东对应商品 · 下方为 ZOL 参考价";
+}
+
+/** 卡片 */
+function cardHTML(p, deal, offers, rank) {
+  const v = priceView(p, deal);
+  const suspect = !!(deal && deal.flag);
+  const brand = p.brand || "品牌未知";
+  const model = String(p.model || "").replace(new RegExp("^" + escapeRe(brand), "i"), "").trim() || p.model || "";
+  const initial = (brand || "?").slice(0, 1);
+  const q = state.quotes.get(p.id);
+  const cut = isCut(q, v.live);
+  const shown = cut ? q.final : v.main;
+  const img = p.image
+    ? `<img src="${esc(p.image)}" alt="" loading="lazy" referrerpolicy="no-referrer"
+         data-alt="${esc(p.imageUrl || "")}" onerror="window.__imgFallback(this)" />`
+    : "";
+
+  return `
+  <article class="card${suspect ? " suspect" : ""}" data-pid="${p.id}" tabindex="0" role="button"
+           aria-label="查看 ${esc(p.model)} 详情">
+    <div class="thumb">
+      <span class="ph">${esc(initial)}</span>
+      ${v.isLive
+        ? (suspect ? `<span class="rank">不参与排名</span>` : `<span class="rank">#${rank}</span>`)
+        : `<span class="rank">无价格信息</span>`}
+      ${v.isLive ? '<span class="src jd">京东自营</span>' : ""}
+      ${img}
+    </div>
+    <div class="body">
+      <div class="row1">
+        <span class="brand">${esc(brand)}</span>
+        ${p.storage ? `<span class="chip">${esc(p.storage)}</span>` : ""}
+        <span class="chip">${esc((state.vm.meta.categoryNames || {})[p.category] || p.category)}</span>
+      </div>
+      <div class="model" title="${esc(p.model)}">${esc(p.displayName || model)}</div>
+
+      <div class="price-row">
+        ${v.main == null
+          ? `<div class="noprice">无价格信息</div>`
+          : `<div class="price" style="${v.isLive ? "" : "color:#b9c2d0"}">${money(shown)}${cut ? `<span class="pre cut">券后</span>` : ""}</div>`}
+        <button class="btn xs dev-only" type="button" data-jd="${p.id}" title="抓取京东自营实时价">更新价格</button>
+      </div>
+      ${v.isLive ? '<div class="nocp">未计算折扣券</div>' : ""}
+      <div class="jd-sub">${esc(jdSubLine(p, v))}</div>
+      ${histLine(deal)}
+
+      ${v.ref != null
+        ? `<div class="ref-price">参考价 ${money(v.ref)} <span class="flat">（ZOL 第三方汇总，可能滞后）</span></div>`
+        : ""}
+
+      ${cut ? `<div class="was">京东价 <s>${money(v.live)}</s> · 已减 ${money(v.live - q.final)}</div>` : ""}
+      ${tagsHTML(deal)}
+      <div class="cap">${offers.length
+        ? offers.length + " 个来源 · 最近 " + fmtTime(offers[0].capturedAt)
+        : "已收录，尚未采集到报价"}</div>
+    </div>
+  </article>`;
+}
+
+function renderGrid() {
+  const vm = state.vm;
+  const q = state.q.trim().toLowerCase();
+  const names = vm.meta.categoryNames || {};
+
+  let items = vm.products.map((p) => {
+    const deal = vm.deals.get(p.id) || null;
+    const offers = vm.offers.get(p.id) || [];
+    const v = priceView(p, deal);
+    const quote = state.quotes.get(p.id);
+    const sortPrice = isCut(quote, v.live) ? quote.final : v.main;
+    const suspect = !!(deal && deal.flag);
+    return { p, deal, offers, v, sortPrice, suspect, group: suspect ? 2 : v.isLive ? 0 : 1 };
+  });
+
+  if (state.category !== "all") items = items.filter((it) => it.p.category === state.category);
+
+  if (q) {
+    if (state.candIds && state.candIds.size) {
+      items = items.filter((it) => state.candIds.has(it.p.id));
+    } else {
+      items = items.filter((it) =>
+        [it.p.brand, it.p.model, it.p.storage, names[it.p.category] || ""]
+          .join(" ").toLowerCase().includes(q));
+    }
+  }
+
+  // 排序：京东价 → 参考价 → 存疑；组内按展示价
+  const dir = state.sort === "price_desc" ? -1 : 1;
+  items.sort((a, b) => {
+    if (a.group !== b.group) return a.group - b.group;
+    if (state.sort === "hist_desc") {
+      const ha = (vm.history.get(a.p.id) || { points: [] }).points.length;
+      const hb = (vm.history.get(b.p.id) || { points: [] }).points.length;
+      return hb - ha;
+    }
+    if (a.sortPrice == null || b.sortPrice == null) return 0;
+    return (a.sortPrice - b.sortPrice) * dir;
+  });
+
+  let rank = 0;
+  $("grid").innerHTML = items.length
+    ? items.map((it) => cardHTML(it.p, it.deal, it.offers, it.v.isLive && !it.suspect ? ++rank : 0)).join("")
+    : `<div class="empty" style="grid-column:1/-1">没有匹配的商品。清空搜索框看全部 ${vm.products.length} 款。</div>`;
+
+  const liveCount = items.filter((it) => it.v.isLive && !it.suspect).length;
+  const refCount = items.filter((it) => !it.v.isLive && it.sortPrice != null).length;
+  $("hint").textContent = q
+    ? `搜索「${state.q}」命中 ${items.length} 款`
+    : `共 ${items.length} 款 · 京东价 ${liveCount} 款 · 参考价 ${refCount} 款`;
+}
+
+function renderHero() {
+  const vm = state.vm;
+  const liveCount = vm.products.filter((p) => {
+    const d = vm.deals.get(p.id);
+    const v = priceView(p, d);
+    return v.isLive && !(d && d.flag);
+  }).length;
+
+  $("s1").textContent = vm.products.length;
+  $("genAt").textContent = vm.meta.dataAt
+    ? fmtTime(vm.meta.dataAt) + (vm.meta.jdAt ? " · 京东 " + fmtTime(vm.meta.jdAt) : "")
+    : "—";
+  $("s2").textContent = liveCount;
+  $("s3").textContent = vm.meta.counts.history_points
+    ?? [...vm.history.values()].reduce((n, h) => n + h.points.length, 0);
+  $("s4").textContent = (vm.modelGroups || []).length;
+  $("s4s").textContent = "组";
+}
+
+function sparkline(values, w = 228, h = 34) {
+  const vals = values.filter((v) => v != null);
+  if (vals.length < 2) return `<div class="empty" style="padding:12px 0">数据不足</div>`;
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const span = hi - lo || 1;
+  const step = w / (values.length - 1);
+  const pts = values.map((v, i) => (v == null ? null : [i * step, h - 3 - ((v - lo) / span) * (h - 6)])).filter(Boolean);
+  const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  const last = pts[pts.length - 1];
+  return `<svg width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <path d="${d}" fill="none" stroke="#8f7ad6" stroke-width="1.6" stroke-linejoin="round"/>
+    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="#c0b0ff"/>
+  </svg>`;
+}
+
+/** 走势图图例（切换平台时复用） */
+function chartLegendHTML(list, priceFlat, hasJD) {
+  const pts = list.flatMap((s) => s.points);
+  const flat = priceFlat && pts.length > 1
+    ? `<span class="flat">区间内价格未变动（${money(pts[0].v)}）</span>`
+    : "";
+  const noJd = list.length && !hasJD
+    ? `<span class="flat">当前只有 ZOL 采集点，暂无京东对应商品</span>`
+    : "";
+  const items = list.map((s) => {
+    const color = s.platform === "jd" ? "#3ddc97" : s.platform === "bili" ? "#c084fc" : "#6ea8fe";
+    if (s.platform === "bili" && s.model) {
+      return `<span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${color};margin-right:4px"></i>第三方 ${esc(s.model)} ${s.points.length} 点</span>`;
+    }
+    const label = esc(PLATFORM_NAME[s.platform] || s.platform);
+    return `<span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${color};margin-right:4px"></i>${label} ${s.points.length} 点</span>`;
+  }).join("");
+  return items + flat + noJd;
+}
+
+/** 找到该商品对应系列的第三方（B站）7 天数据；对不上就返回 null */
+function refSeriesFor(product) {
+  const ref = state.vm.reference;
+  if (!ref || !ref.series || !product) return null;
+  const t = String(product.model || "").toUpperCase();
+  const nums = [...new Set((t.match(/\d{4}/g) || []))];
+  const words = ["SUPER", "TI", "XT"].filter((w) => new RegExp("(^|[^A-Z])" + w + "([^A-Z]|$)").test(t));
+  const hit = ref.series.find((ser) => {
+    const st = String(ser.model || "").toUpperCase();
+    const sn = [...new Set((st.match(/\d{4}/g) || []))];
+    if (!sn.length || !sn.every((n) => nums.includes(n))) return false;
+    if (sn.length !== nums.length) return false;
+    const sw = ["SUPER", "TI", "XT"].filter((w) => new RegExp("(^|[^A-Z])" + w + "([^A-Z]|$)").test(st));
+    return sw.length === words.length && sw.every((w) => words.includes(w));
+  });
+  if (!hit || !hit.points || !hit.points.length) return null;
+  return {
+    platform: "bili",
+    points: hit.points.map((pt) => ({ t: new Date(pt.date + "T00:00:00").getTime(), v: pt.low_day })).filter((x) => Number.isFinite(x.v)),
+    model: hit.model,
+  };
+}
+
+/** 历史位置标签：<5 点不下结论 */
+function histLine(deal) {
+  if (!deal) return "";
+  const n = Number(deal.histPoints || 0);
+  if (n < 5) return `<div class="hist-line"><span class="flat">历史数据不足（n=${n}）</span></div>`;
+
+  // 历史价格从头到尾没变过（平线）：给"持平"就够，别写"距历史最低 0.0%"
+  const mnRaw = deal.histMin, mxRaw = deal.histMax;
+  if (mnRaw != null && mxRaw != null && mxRaw <= mnRaw * 1.005) {
+    return `<div class="hist-line"><span class="flat">历史价格持平（n=${n}）</span></div>`;
+  }
+
+  const parts = [];
+  const avg = deal.vsAvgPct;
+  if (avg != null) {
+    const x = Math.abs(Number(avg)).toFixed(1);
+    if (Math.abs(avg) < 0.05) parts.push("与近 7 天均价持平");
+    else if (avg < 0) parts.push(`比近 7 天均价 <b class="down">低 ${x}%</b>`);
+    else parts.push(`比近 7 天均价 <b class="up">高 ${x}%</b>`);
+  }
+  const mn = deal.vsMinPct;
+  if (mn != null) {
+    const x = Number(mn).toFixed(1);
+    parts.push(`距历史最低 <b class="${Number(mn) <= 0.05 ? "down" : "flat"}">${Number(mn) > 0 ? "+" : ""}${x}%</b>`);
+  }
+  const badge = deal.atHistLow ? `<span class="tag green">历史低位</span>` : "";
+  return `<div class="hist-line">${parts.join(" · ")} ${badge}</div>`;
+}
+
+/** 同款比一比 */
+function renderGroups() {
+  const sec = $("groupsSec"), box = $("groupsList");
+  if (!sec || !box) return;
+  const list = (state.vm.modelGroups || [])
+    .filter((g) => g.count > 1 && g.items.length > 1)
+    .sort((a, b) => (b.liveCount - a.liveCount) || (b.spread - a.spread));
+
+  sec.hidden = !list.length;
+  box.innerHTML = list.map((g) => {
+    const prices = g.items.map((x) => (x.priceLive != null ? x.priceLive : x.priceReference)).filter((v) => v != null);
+    const spread = prices.length > 1 ? Math.max(...prices) - Math.min(...prices) : null;
+    const isLiveGroup = g.liveCount > 0;
+    const items = g.items.slice().sort((a, b) =>
+      ((a.priceLive != null ? a.priceLive : a.priceReference) ?? Infinity) -
+      ((b.priceLive != null ? b.priceLive : b.priceReference) ?? Infinity));
+    const best = isLiveGroup ? items.find((x) => x.priceLive != null) : null;
+    const label = g.label.length > 42 ? g.label.slice(0, 42) + "…" : g.label;
+    return `<details class="grow">
+      <summary>
+        <span>${esc(label)}</span>
+        <span class="flat">${isLiveGroup ? g.liveCount + " 个有京东价" : items.length + " 个参考价"}</span>
+        <span class="spread">${spread === 0 ? "价格相同" : (isLiveGroup ? "实时价差 " : "参考价对比 ") + (spread != null ? money(spread) : "—")}</span>
+      </summary>
+      ${items.map((x) => {
+        const p = x.priceLive != null ? x.priceLive : x.priceReference;
+        return `<div class="gitem${best && x.productId === best.productId ? " best" : ""}">
+          <span>${esc(x.brand)}</span>
+          <span class="flat">${esc(x.model)}</span>
+          <span class="p">${p != null ? money(p) : "—"}</span>
+        </div>`;
+      }).join("")}
+    </details>`;
+  }).join("");
+}
+
+function paintSite() {
+  const s = (state.vm && state.vm.meta.site) || {};
+  if (s.name) {
+    document.title = s.name;
+    const a = $("siteName"); if (a) a.textContent = s.name;
+  }
+  const tag = $("siteTagline"); if (tag && s.tagline) tag.textContent = s.tagline;
+  const pr = $("promise");
+  if (pr && Array.isArray(s.promise)) {
+    // 只保留与“券”无关的卖点
+    const list = s.promise.filter((x) => !/券/.test(String(x)));
+    pr.innerHTML = list.map((x) => `<span>${esc(x)}</span>`).join("");
+    pr.hidden = list.length === 0;
+  }
+  const dis = $("siteDisclaimer"); if (dis && s.disclaimer) dis.textContent = s.disclaimer;
+
+}
+
+function renderReference() {
+  const ref = state.vm.reference;
+  if (!ref) { $("refSec").hidden = true; return; }
+  $("refSec").hidden = false;
+
+  const dates = ref.dates;
+  $("refRange").textContent = dates.length
+    ? `覆盖 ${dates[0]} ~ ${dates[dates.length - 1]}（${dates.length} 天）` : "";
+  $("refSub").innerHTML = `来源：${esc(ref.source)}。${esc(ref.note)}<br/>
+    口径：型号为“系列级”（如 RTX 5080），不是本页某个具体品牌型号；平台列为该系列当日各平台价格。`;
+
+  const names = ref.platformNames;
+  const short = (n) => String(n || "").replace("京东自营", "京东").replace(/（.*$/, "");
+
+  $("refGrid").innerHTML = ref.series.map((ser) => {
+    const ps = ser.points;
+    if (!ps.length) return "";
+    const last = ps[ps.length - 1];
+    const first = ps[0];
+    const chg = first.low_day ? ((last.low_day - first.low_day) / first.low_day) * 100 : 0;
+    const cls = chg > 0.05 ? "up" : chg < -0.05 ? "down" : "flat";
+    const arrow = chg > 0.05 ? "↑" : chg < -0.05 ? "↓" : "→";
+    const plat = ["jd", "tb", "pdd", "yin"].map((k) => `
+      <div><div class="pn">${esc(short(names[k] || k))}</div><div class="pv">${money0(last[k])}</div></div>`).join("");
+    return `
+      <div class="rser">
+        <div class="h"><span class="nm">${esc(ser.model)}</span>
+          <span class="dlt ${cls}">${arrow} ${chg > 0 ? "+" : ""}${chg.toFixed(1)}%</span></div>
+        <div class="spark">${sparkline(ps.map((p) => p.low_day))}</div>
+        <div class="plat">${plat}</div>
+        <div class="foot"><span>日低 ${money0(last.low_day)}</span><span>史低 ${money0(last.low_hist)}</span><span>${esc(last.date)}</span></div>
+      </div>`;
+  }).join("");
+}
+
+/* ---------------- 商品详情 ---------------- */
+function openProduct(pid) {
+  const vm = state.vm;
+  const p = vm.products.find((x) => x.id === pid);
+  if (!p) return;
+  const deal = vm.deals.get(pid) || null;
+  const offers = vm.offers.get(pid) || [];
+  const hist = vm.history.get(pid) || null;
+  const v = priceView(p, deal);
+  const primary = offers[0] || null;
+  const q = state.quotes.get(pid);
+
+  $("mTitle").textContent = p.displayName || p.model || "—";
+  $("mSub").innerHTML = [
+    p.brand ? esc(p.brand) : "品牌未知",
+    p.storage ? esc(p.storage) : null,
+    esc((vm.meta.categoryNames || {})[p.category] || p.category),
+    p.jdSku ? "京东 SKU " + esc(p.jdSku) : "未关联京东",
+    deal && deal.flag ? `<span style="color:#ff9b9b">价格存疑</span>` : null,
+  ].filter(Boolean).join(" · ");
+
+  const parts = [];
+
+  // —— 图 + 主价 ——
+  const heroImg = p.image || "";
+  parts.push(`
+    <div class="m-hero">
+      <div class="m-pic">
+        <span class="ph">${esc((p.brand || "?").slice(0, 1))}</span>
+        ${heroImg
+          ? `<a href="${esc(heroImg)}" target="_blank" rel="noopener noreferrer" title="点开看大图">
+               <img src="${esc(heroImg)}" alt="${esc(p.model || "")}" referrerpolicy="no-referrer"
+                    data-alt="${esc(p.imageUrl || "")}" onerror="window.__imgFallback(this)" />
+             </a>`
+          : `<div class="m-noimg" aria-hidden="true"></div>`}
+        ${heroImg ? '<span class="m-zoom">点图看大图</span>' : ""}
+      </div>
+      <div class="m-meta">
+        <div class="big-price" id="mBigPrice">${bigPriceHTML(v, q)}</div>
+        <div class="m-brand">${esc(jdSubLine(p, v))}</div>
+        <div class="cq-actions">
+          <button class="btn sm dev-only" type="button" data-jd="${p.id}">更新京东价</button>
+          ${v.ref != null ? `<span class="ref-price" style="margin:0">参考价 ${money(v.ref)} <span class="flat">（ZOL，可能滞后）</span></span>` : ""}
+        </div>
+        ${tagsHTML(deal)}
+        <div class="scroll-hint">下滑查看价格走势 ↓</div>
+      </div>
+    </div>`);
+
+  // —— 价格构成 ——
+  const tierCards = [];
+  if (v.isLive) {
+    tierCards.push(`<div class="tier main"><div class="k">京东自营价</div><div class="v">${money(v.live)}</div>
+      <div class="s">${v.liveAt ? "实时抓取 · " + esc(fmtTime(v.liveAt)) : "实时抓取"}</div></div>`);
+    if (v.ref != null) {
+      tierCards.push(`<div class="tier"><div class="k">参考价 · ZOL</div><div class="v" style="color:var(--muted)">${money(v.ref)}</div>
+        <div class="s">第三方汇总，可能滞后</div></div>`);
+    }
+  } else if (v.ref != null) {
+    tierCards.push(`<div class="tier main"><div class="k">参考价 · ZOL</div><div class="v" style="color:#b9c2d0">${money(v.ref)}</div>
+      <div class="s">暂无京东对应商品</div></div>`);
+  }
+  if (isCut(q, v.live)) {
+    tierCards.push(`<div class="tier coupon"><div class="k">你的券</div><div class="v">-${money(v.live - q.final)}</div>
+      <div class="s">只有你能用</div></div>`);
+    tierCards.push(`<div class="tier main"><div class="k">到手价</div><div class="v" style="color:#9fd0ff">${money(q.final)}</div>
+      <div class="s">按你的券计算</div></div>`);
+  }
+  parts.push(`<div class="tiers">${tierCards.join("")}</div>`);
+
+  // —— 历史曲线（分平台着色 + 平台切换，避免京东与 ZOL 混轴压缩） ——
+  const series = hist ? (hist.series || []) : [];
+  const allVals = series.flatMap((s) => s.points.map((p) => p.v));
+  const priceFlat = allVals.length > 1 && Math.min(...allVals) === Math.max(...allVals);
+  const hasJD = series.some((s) => s.platform === "jd");
+  const hasZol = series.some((s) => s.platform === "zol");
+  const refSer = refSeriesFor(p);
+  const allSeries = refSer ? series.concat([refSer]) : series;
+  const modes = ["jd", "zol"].filter((m) => (m === "jd" ? hasJD : hasZol)).concat(refSer ? ["bili"] : []);
+  const defaultMode = hasJD ? "jd" : hasZol ? "zol" : "bili";
+  CHART.set(pid, { series: allSeries, priceFlat, hasJD });
+  const modeBtn = (m, label) =>
+    `<button type="button" class="${m === defaultMode ? "on" : ""}" onclick="window.__chartMode(${pid},'${m}',this)">${label}</button>`;
+  const initList = series.filter((s) => s.platform === defaultMode);
+  parts.push(`<div class="sec-t">价格走势</div>
+    <div class="chart-modes">
+      ${modes.map((m) => modeBtn(m, m === "jd" ? "京东" : m === "zol" ? "ZOL" : "第三方 " + ((refSer && refSer.model) || ""))).join("")}
+      ${modes.length > 1 ? modeBtn("all", "全部") : ""}
+    </div>
+    <div class="chart-wrap" id="chartWrap">
+      <div class="chart-tip" id="chartTip"></div>
+      ${chartSVG(initList)}
+    </div>
+    <div class="chart-legend" id="chartLegend">${chartLegendHTML(initList, priceFlat, hasJD)}</div>`);
+
+  // —— 到手价 / 券 ——
+  parts.push(`<div class="cq-note" style="margin:12px 0 4px">
+    <b>未计算折扣券</b>：上面显示的是京东页面价（含平台自动立减），你的个人折扣券未计入；实际成交价请以京东结算页为准（含你的券与支付优惠）。
+  </div>`);
+
+  // —— 价格存疑 ——
+  if (deal && deal.flag) {
+    parts.push(`<div class="sec-t">价格标记</div>
+      <div class="reasons" style="border-color:#4a2f2f;color:#ffb3b3">
+        <b style="color:#ff9b9b">价格存疑</b> · ${esc(deal.flag.why || "与参考源偏离过大")}
+        <br/><span class="no">该价格不参与排名，也不用于任何排名判断。</span>
+      </div>`);
+  }
+
+  // —— 数据信息 ——
+  parts.push(`
+    <div class="kv">
+      <div class="k">京东价时间</div><div>${v.live == null ? '<span class="flat">—</span>' : v.liveAt ? esc(fmtTime(v.liveAt)) : '<span class="flat">接口未给时间</span>'}</div>
+      <div class="k">ZOL 采集</div><div>${primary ? esc(fmtDate(primary.capturedAt)) + " " + esc(fmtTime(primary.capturedAt, false)) : "—"}</div>
+      <div class="k">官方指导价</div><div>${deal && deal.msrp != null ? money(deal.msrp) : '<span class="flat">暂无</span>'}</div>
+      <div class="k">历史点数</div><div>${(() => {
+                if (!hist) return "0 个";
+                const total = (hist.series || []).reduce((a, s) => a + s.points.length, 0);
+                const detail = (hist.series || []).filter((s) => s.points.length).map((s) => (PLATFORM_NAME[s.platform] || s.platform) + " " + s.points.length).join(" / ");
+                return total + " 个" + (detail ? "（" + detail + "）" : "");
+              })()}</div>
+      <div class="k">库存</div><div>${primary && primary.inStock === 1 ? "有货" : primary && primary.inStock === 0 ? "无货" : '<span class="flat">未知</span>'}</div>
+      <div class="k">数据时间</div><div>${esc(fmtTime(vm.meta.dataAt))}</div>
+    </div>`);
+
+  // —— 各平台报价 ——
+  parts.push(`<div class="sec-t">各平台报价</div>
+    <table class="lst"><thead><tr>
+      <th>平台</th><th>价格</th><th>商家</th><th>采集时间</th><th>链接</th>
+    </tr></thead><tbody>
+    ${offers.map((l) => `<tr>
+      <td>${esc(PLATFORM_NAME[l.platform] || l.platform)}</td>
+      <td style="color:${l.platform === "jd" ? "var(--green)" : "var(--muted)"};font-weight:600">${money(l.price)}</td>
+      <td>${l.seller ? esc(l.seller) : '<span class="flat">—</span>'}
+        ${l.sellerType === "third_party" ? ' <span class="pill">第三方</span>' : ""}</td>
+      <td class="mono" style="font-size:11.5px;color:var(--muted)">${esc(fmtTime(l.capturedAt))}</td>
+      <td>${l.url ? `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">原页</a>` : "—"}</td>
+    </tr>`).join("") || `<tr><td colspan="5" class="flat">暂无报价</td></tr>`}
+    </tbody></table>`);
+
+  // —— 好价（数据侧算，前端只展示） ——
+  parts.push(`<div class="sec-t">好价判定</div>`);
+  if (deal && deal.goodDeal) {
+    parts.push(`<div class="reasons"><b>是</b> · ${(deal.reasons || []).map(esc).join(" · ")}</div>`);
+  } else {
+    parts.push(`<div class="reasons">
+      <span class="no">当前未触发好价（规则由数据侧计算，前端不重算）：</span><br/>
+      ① 多来源同价 —— 需要 ≥2 个可靠来源，当前 ${esc(deal ? deal.platformCount : offers.length)} 个；<br/>
+      ② 低于指导价 10% —— ${deal && deal.msrp != null ? money(deal.msrp) : "该商品没有指导价"}；<br/>
+      ③ 低于近期均价 8% —— 当前 ${esc(deal ? deal.points : 0)} 个历史点。
+    </div>`);
+  }
+
+  // —— 第三方参考 ——
+  if (deal && deal.refMatch) {
+    const r = deal.refMatch;
+    const pct = r.ref_change_pct ?? 0;
+    parts.push(`<div class="sec-t">第三方参考（系列级）</div>
+      <div class="reasons">
+        参考系列 <b>${esc(r.ref_model)}</b> · 近 ${r.ref_days} 天
+        <span class="${pct > 0 ? "up" : pct < 0 ? "down" : "flat"}">${pct > 0 ? "↑ +" : pct < 0 ? "↓ " : "→ "}${pct}%</span><br/>
+        该系列最新日低 ${money(r.ref_low_day_latest)} · 京东自营 ${money(r.ref_jd_latest)} · 原价 ${money(r.ref_msrp)}<br/>
+        <span class="no">${esc(r.note || "系列级参考，不等于本商品的实测价")}</span>
+      </div>`);
+  }
+
+  $("mBody").innerHTML = parts.join("");
+  $("overlay").hidden = false;
+  document.body.style.overflow = "hidden";
+  if (v.live != null) loadQuote(pid);
+  if (hist) bindChartTip();
+}
+
+
+function closeProduct() {
+  $("overlay").hidden = true;
+  document.body.style.overflow = "";
+}
+
+/**
+ * 原生 SVG 折线图
+ * - 0 点：调用方显示"暂无历史"
+ * - 1 点：只画点
+ * - 2~6 点：折线 + 圆点，不做趋势拟合（会误导）
+ * 横轴按真实时间等比缩放
+ */
+/**
+ * 原生 SVG 折线图（多平台）
+ * @param {Array<{platform:string, points:Array<{iso,t,v}>}>} series
+ * - 0 个点：显示"暂无历史"
+ * - 1 个点：只画点
+ * - 2+ 点：折线 + 圆点，不做趋势拟合
+ * 京东 / ZOL 用不同颜色，横轴按真实时间等比缩放
+ */
+function chartSVG(series) {
+  const COLORS = { jd: "#3ddc97", zol: "#6ea8fe", bili: "#c084fc" };
+  const list = (series || []).map((s) => ({
+    platform: s.platform,
+    color: COLORS[s.platform] || "#a78bfa",
+    pts: (s.points || [])
+      .filter((p) => Number.isFinite(p.t) && Number.isFinite(p.v))
+      .slice()
+      .sort((a, b) => a.t - b.t),
+  })).filter((s) => s.pts.length);
+
+  if (!list.length) return `<div class="empty">暂无历史，已开始积累</div>`;
+
+  const all = list.flatMap((s) => s.pts);
+  const W = 700, H = 230, L = 66, R = 18, T = 14, B = 34;
+  let lo = Math.min(...all.map((p) => p.v));
+  let hi = Math.max(...all.map((p) => p.v));
+  if (hi === lo) { hi += 1000; lo -= 1000; }
+  const pad = (hi - lo) * 0.08;
+  lo -= pad; hi += pad;
+
+  const t0 = Math.min(...all.map((p) => p.t));
+  const t1 = Math.max(...all.map((p) => p.t));
+  const x = (t) => (t1 === t0 ? L + (W - L - R) / 2 : L + ((t - t0) / (t1 - t0)) * (W - L - R));
+  const y = (v) => T + ((hi - v) / (hi - lo)) * (H - T - B);
+
+  let grid = "", ticks = [];
+  for (let i = 0; i <= 3; i++) {
+    const v = lo + ((hi - lo) * i) / 3;
+    const yy = y(v);
+    grid += `<line x1="${L}" y1="${yy.toFixed(1)}" x2="${W - R}" y2="${yy.toFixed(1)}" stroke="#1e2532" stroke-width="1"/>`;
+    ticks.push(`<text x="${L - 8}" y="${(yy + 4).toFixed(1)}" text-anchor="end" fill="#646c7d" font-size="10.5">${(v / 100).toFixed(0)}</text>`);
+  }
+
+  // 横轴：时间跨度小时只标首尾，并用短格式，避免标签叠在一起
+  const times = [...new Set(all.map((p) => p.t))].sort((a, b) => a - b);
+  const spanMs = t1 - t0;
+  const label = (t) => {
+    const d = new Date(t);
+    const p2 = (v) => String(v).padStart(2, "0");
+    const hhmm = p2(d.getHours()) + ":" + p2(d.getMinutes());
+    return spanMs > 12 * 3600 * 1000 ? p2(d.getMonth() + 1) + "-" + p2(d.getDate()) + " " + hhmm : hhmm;
+  };
+  let marks = times.length >= 3
+    ? [times[0], times[Math.floor((times.length - 1) / 2)], times[times.length - 1]]
+    : times;
+  marks = [...new Set(marks)];
+  if (marks.length === 3 && Math.abs(x(marks[1]) - x(marks[0])) < 90) marks = [marks[0], marks[2]];
+  const xl = marks.map((t, i) => {
+    const anchor = i === 0 ? "start" : i === marks.length - 1 ? "end" : "middle";
+    return `<text x="${x(t).toFixed(1)}" y="${H - 12}" text-anchor="${anchor}" fill="#646c7d" font-size="10.5">${label(t)}</text>`;
+  });
+
+  let body = "";
+  for (const s of list) {
+    const d = s.pts.map((p, i) => (i ? "L" : "M") + x(p.t).toFixed(1) + " " + y(p.v).toFixed(1)).join(" ");
+    if (s.pts.length > 1) {
+      body += `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2"${s.platform === "bili" ? ' stroke-dasharray="5 4"' : ""}
+        stroke-linejoin="round" stroke-linecap="round" opacity=".9"/>`;
+    }
+    body += s.pts.map((p) => `<circle class="pt" cx="${x(p.t).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="3.8"
+        fill="#0c1017" stroke="${s.color}" stroke-width="2"
+        data-tip="${esc(PLATFORM_NAME[s.platform] || s.platform)} · ${esc(fmtTime(p.iso))} · ${esc(money(p.v))}">
+        <title>${esc(PLATFORM_NAME[s.platform] || s.platform)} ${esc(fmtTime(p.iso))} ${esc(money(p.v))}</title>
+      </circle>`).join("");
+  }
+
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" preserveAspectRatio="xMidYMid meet">
+    ${grid}${ticks.join("")}${body}${xl.join("")}
+  </svg>`;
+}
+
+
+function bindChartTip() {
+  const wrap = $("chartWrap"), tip = $("chartTip");
+  if (!wrap || !tip) return;
+  wrap.querySelectorAll("circle.pt").forEach((c) => {
+    c.addEventListener("mouseenter", () => {
+      const r = c.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+      tip.textContent = c.dataset.tip || "";
+      tip.style.left = (r.left - w.left + r.width / 2) + "px";
+      tip.style.top = (r.top - w.top) + "px";
+      tip.style.opacity = "1";
+    });
+    c.addEventListener("mouseleave", () => { tip.style.opacity = "0"; });
+  });
+}
+
+/* ================================================================
+   5. 搜索：走后端 /api/search（前端不做模糊匹配）
+   ================================================================ */
+let searchTimer = null;
+
+function onSearchInput() {
+  const q = $("q").value.trim();
+  state.q = q;
+  $("qClear").hidden = !q;
+  clearTimeout(searchTimer);
+
+  if (!q.length) {
+    closeCands();
+    renderGrid();
+    return;
+  }
+  // 新的一次输入：先退回"关键字筛选"，等后端候选回来再收敛
+  state.candIds = null;
+  searchTimer = setTimeout(() => doSearch(q), 260);   // 防抖
+}
+
+/** 本页关键字兜底：品牌/型号/容量/品类名 的包含匹配（不打分） */
+function localCandidates(q) {
+  const lower = (s) => String(s == null ? "" : s).toLowerCase();
+  const tokens = lower(q).split(/\s+/).filter(Boolean);
+  if (!tokens.length || !state.vm) return [];
+  const names = state.vm.meta.categoryNames || {};
+  const out = [];
+  for (const p of state.vm.products) {
+    const hay = lower([p.brand, p.model, p.storage, names[p.category] || p.category].join(" "));
+    if (!tokens.every((tk) => hay.includes(tk))) continue;
+    const deal = state.vm.deals.get(p.id);
+    out.push({
+      product_id: p.id,
+      title: `${p.brand || ""} ${p.model}`.trim(),
+      brand: p.brand,
+      model: p.model,
+      image_local: p.imageLocal,
+      image_url: p.imageUrl,
+      price: deal ? deal.price : null,
+      score: null,
+      why: ["本页关键字匹配"],
+    });
+    if (out.length >= 5) break;
+  }
+  return out;
+}
+
+async function doSearch(q) {
+  state.searching = true;
+  const res = await API.search(q);
+  if (state.q !== q) return;        // 期间又敲了字，丢弃旧结果
+  state.searching = false;
+
+  if (!res.ok) {
+    // 接口不可用时退化成本页关键字筛选，并明确告知——不假装成"智能搜索"
+    $("candList").innerHTML = `<div class="empty" style="padding:18px 10px">搜索服务不可用（${esc((res.error && res.error.code) || "NETWORK")}），已退化为本页关键字筛选。</div>`;
+    $("candMeta").textContent = "降级模式";
+    $("candReject").hidden = true;
+    $("cands").hidden = false;
+    state.cands = [];
+    state.candIds = null;   // 降级：回到关键字筛选
+    renderGrid();
+    return;
+  }
+
+  const d = res.data || {};
+  state.cands = d.candidates || [];
+  let degraded = false;
+  // 后端没命中（比如只输了品类词）→ 用本页关键字兜底。
+  // 注意：兜底只做"包含匹配"，不打分、不做同义词，真正的模糊匹配仍由 /api/search 负责。
+  if (!state.cands.length) {
+    state.cands = localCandidates(q);
+    degraded = state.cands.length > 0;
+  }
+  // 用候选收敛列表：避免"面板里有、底下却显示没有匹配"
+  state.candIds = new Set(state.cands.map((c) => Number(c.product_id)));
+  renderGrid();
+
+  if (!state.cands.length) {
+    $("candList").innerHTML = `<div class="empty" style="padding:22px 12px">
+      没找到候选。试试只输型号，比如「4070 SUPER」「9070 XT」「B570」。</div>`;
+    $("candMeta").textContent = "0 个候选";
+    $("candReject").hidden = false;
+    $("cands").hidden = false;
+    return;
+  }
+
+  $("candList").innerHTML = state.cands.map((c, i) => {
+    const img = c.image_local || c.image_url;
+    return `<div class="cand" data-i="${i}" role="button" tabindex="0">
+      <div class="im">${img
+        ? `<img src="${esc(img)}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none'" />`
+        : esc((c.brand || "?").slice(0, 1))}</div>
+      <div class="t">
+        <div class="n">${esc(c.title || c.model || "")}</div>
+        <div class="w">${(c.why || []).map(esc).join(" · ") || "—"}</div>
+      </div>
+      <div class="p">${money(c.price)}</div>
+      <div class="sc">${c.score != null ? Math.round(c.score) + "%" : ""}</div>
+    </div>`;
+  }).join("");
+
+  $("candMeta").textContent = degraded
+    ? `${state.cands.length} 个本页关键字结果（后端未命中，仅供兜底）`
+    : d.source === "alias"
+      ? "来自你之前的选择"
+      : `${state.cands.length} 个候选 · 点一个记住这个说法`;
+  $("candReject").hidden = false;
+  $("cands").hidden = false;
+}
+
+function closeCands() {
+  $("cands").hidden = true;
+  state.cands = [];
+  state.candIds = null;
+  state.candIndex = -1;
+}
+
+/** 点候选：先 POST /api/alias 记住，再跳详情 */
+async function pickCandidate(i) {
+  const c = state.cands[i];
+  if (!c) return;
+  const raw = state.q;
+  // 记住选择是"锦上添花"，失败不该挡住跳转
+  API.alias(raw, c.product_id).then((r) => {
+    if (r.ok) toast("已记住：以后搜「" + raw + "」直接命中");
+  });
+  closeCands();
+  openProduct(Number(c.product_id));
+}
+
+/** "都不对"：写入 user_reject，供数据侧补 SKU */
+async function rejectCandidates() {
+  const raw = state.q;
+  if (!raw) return;
+  const r = await API.alias(raw, null);
+  closeCands();
+  if (r.ok) toast(`已记录「${raw}」，会补进商品库`);
+  else if (r.error && r.error.code === "NOT_AVAILABLE") toast("当前为只读数据，无法保存这个说法", 3200);
+  else toast("记录失败，稍后再试");
+}
+
+/* ================================================================
+   6. 刷新：先渲染旧数据，轮询 status 看 data_changed
+   ================================================================ */
+function setStatus(text) {
+  const pill = $("statusPill");
+  if (!text) { pill.classList.remove("on"); return; }
+  $("statusText").textContent = text;
+  pill.classList.add("on");
+}
+
+async function doRefresh() {
+  const btn = $("refreshBtn");
+  if (btn.disabled) return;
+  btn.disabled = true;
+
+  const res = await API.refresh();
+
+  if (!res.ok) {
+    btn.disabled = false;
+    toast("无法刷新：" + ((res.error && res.error.message) || "接口不可用"));
+    return;
+  }
+
+  const d = res.data || {};
+  if (d.refreshed === false) {
+    btn.disabled = false;
+    if (d.reason === "collectors_missing") {
+      // 只读包：不假装刷新，改为重新检查快照并给一次明确提示
+      const changed = await checkNow(false);
+      if (!changed) toast("当前为只读数据，已是最新（" + fmtTime(state.vm.meta.dataAt) + "）", 3200);
+    } else if (d.retry_after != null) toast(`更新太频繁，${d.retry_after} 秒后可再试`);
+    else toast("当前无法触发采集");
+    return;
+  }
+
+  // 已触发：保持旧数据可见，只亮"更新中"角标
+  const token = ++state.pollToken;
+  state.pollStart = Date.now();
+  state.refreshStartedAt = d.started_at || null;   // 只认这一次的 last_refresh
+  setStatus("更新中…（约 30~60 秒）");
+  toast("已开始采集，页面先显示上次数据", 3200);
+
+  clearInterval(state.pollTimer);
+  state.pollTimer = setInterval(() => pollRefresh(token), CONFIG.pollingMs);
+}
+
+async function pollRefresh(token) {
+  if (token !== state.pollToken) return;
+
+  if (Date.now() - state.pollStart > CONFIG.pollingMaxMs) {
+    clearInterval(state.pollTimer);
+    setStatus("");
+    $("refreshBtn").disabled = false;
+    toast("本次更新超时，请稍后再试");
+    return;
+  }
+
+  const res = await API.status();
+  if (!res.ok) return;               // 网络抖动，继续轮询
+  const d = res.data || {};
+  const lr = d.last_refresh;
+
+  if (d.collecting) return;                                   // 还在跑
+  // 服端只保留最后一次刷新记录：started_at 对不上说明还没轮到我们这轮，继续等
+  if (!lr || (state.refreshStartedAt && lr.started_at !== state.refreshStartedAt)) return;
+
+  clearInterval(state.pollTimer);
+  setStatus("");
+  $("refreshBtn").disabled = false;
+
+  if (!lr) { toast("采集已结束，但没拿到结果，请重试"); return; }
+
+  if (lr.data_changed) {
+    const snap = await API.snapshot();
+    if (snap.ok && snap.data) {
+      applySnapshot(snap.data, false);
+      toast("已更新到 " + fmtTime(snap.data.generated_at));
+    } else {
+      toast("数据已更新，但读取失败，请刷新页面");
+    }
+  } else {
+    // 关键：没抓到就明说，不要让时间戳骗人
+    toast("本次未抓到新数据（源站限速或价格未变），仍显示 " + fmtTime(state.vm.meta.dataAt) + " 的数据", 4200);
+  }
+}
+
+/* ================================================================
+   4.5 品类切换（P0）
+   ----------------------------------------------------------------
+   - 品类名一律来自 snapshot.category_names，不写死中文
+   - 只在前端过滤 products，不请求后端
+   - 商品数为 0 的品类不出现入口
+   ================================================================ */
+function categoryCounts() {
+  const m = new Map();
+  for (const p of state.vm.products) m.set(p.category, (m.get(p.category) || 0) + 1);
+  return m;
+}
+
+function renderCats() {
+  const el = $("cats");
+  if (!el || !state.vm) return;
+  const counts = categoryCounts();
+  const names = state.vm.meta.categoryNames || {};
+  const order = ["vga", "cpu", "memory", "power", "case", "keyboard", "mouse",
+    "monitor", "ssd", "router", "projector", "notebook", "mb"];
+  const keys = [...counts.keys()].sort((a, b) => {
+    const ia = order.indexOf(a), ib = order.indexOf(b);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+  // 数据变了导致当前品类没了 → 退回全部
+  if (state.category !== "all" && !counts.has(state.category)) state.category = "all";
+
+  const items = [{ key: "all", name: "全部", n: state.vm.products.length }]
+    .concat(keys.map((k) => ({ key: k, name: names[k] || k, n: counts.get(k) })));
+
+  el.innerHTML = items.map((it) => `<button class="cat${state.category === it.key ? " on" : ""}"
+      type="button" data-cat="${esc(it.key)}">${esc(it.name)}<span>${it.n}</span></button>`).join("");
+}
+
+$("cats").addEventListener("click", (e) => {
+  const b = e.target.closest(".cat");
+  if (!b) return;
+  state.category = b.dataset.cat;
+  renderCats();
+  renderGrid();
+});
+
+/* ================================================================
+   6.5 到手价：页面价 → 平台自动立减 → 你的券 → 到手价
+   ----------------------------------------------------------------
+   规则：
+   - 券后价由后端 /api/quote 计算，前端不自己算叠加/互斥
+   - 券只从 /api/user-coupons 取（扩展上报 / 手动添加，服务端内存 10 分钟）
+   - 拿不到券就降级：页面价 + 自动立减 + 提示，不报错
+   - 券门槛没满足 → 只进 notes 提示，绝不并进到手价
+   ================================================================ */
+async function computeQuoteFor(pid) {
+  if (!COUPONS_ENABLED) return null;
+  const p = state.vm.products.find((x) => x.id === pid);
+  const deal = state.vm.deals.get(pid);
+  const v = p ? priceView(p, deal) : null;
+  if (!p || !deal || !v || v.live == null) return null;   // 没有京东价就不算券后
+
+  let coupons = [];
+  let source = "none";
+  if (p.jdSku) {
+    const r = await API.userCoupons(p.jdSku);
+    if (r.ok) {
+      coupons = (r.data && r.data.coupons) || [];
+      source = coupons.length ? "store" : "empty";
+    }
+  }
+
+  const q = await API.quote({
+    price: v.live,
+    auto_promo: deal.autoPromo || 0,
+    user_coupons: coupons,
+  });
+  if (!q.ok) return null;
+  return Object.assign({}, q.data, { source, sourceCoupons: coupons, autoPromo: deal.autoPromo || 0 });
+}
+
+/** 券区块 HTML：三档价 + 提示 + 检测入口 + 已检测到的券 */
+function couponHTML(pid, q) {
+  const p = state.vm.products.find((x) => x.id === pid);
+  if (!q) {
+    return `<div class="cq-note">券后价暂时算不出来，先按页面价看。可以点「检测我的京东券」重试。</div>
+      <div class="cq-actions">
+        <button class="btn sm" type="button" onclick="couponFetch(${pid})">重试</button>
+      </div>`;
+  }
+
+  const deduct = Math.max(0, (q.price_promo || 0) - (q.price_user || 0));
+  const tiers = [
+    `<div class="tier main"><div class="k">页面价</div><div class="v">${money(q.price)}</div>
+       <div class="s">平台标价 · 人人一样</div></div>`,
+  ];
+  if (q.autoPromo > 0) {
+    tiers.push(`<div class="tier"><div class="k">平台自动立减</div>
+      <div class="v" style="color:#7ff0bd">-${money(q.autoPromo)}</div><div class="s">无需领券</div></div>`);
+  }
+  if (deduct > 0) {
+    tiers.push(`<div class="tier coupon"><div class="k">你的券</div>
+      <div class="v">-${money(deduct)}</div><div class="s">只有你能用</div></div>`);
+  }
+  tiers.push(`<div class="tier main"><div class="k">到手价</div><div class="v">${money(q.final)}</div>
+    <div class="s">${deduct > 0 ? "按你的券计算" : "暂无可用券"}</div></div>`);
+
+  const applied = (q.applied || [])
+    .map((c) => `满${(c.threshold / 100).toFixed(0)}减${(c.amount / 100).toFixed(0)}`)
+    .join("、");
+  const notes = (q.notes || []).map((n) => `<div>提示：${esc(n)}</div>`).join("");
+
+  let hint;
+  if (q.source === "store") hint = `已检测到 ${q.sourceCoupons.length} 张券` + (applied ? `：${esc(applied)}` : "");
+  else hint = `未检测到你的券${p && p.jdSku ? "（需登录京东 + 安装扩展）" : "（该商品没有京东 SKU）"}。装上扩展并在京东页同步后，这里会显示券和到手价。`;
+
+  // 已记录的券（本地账本，按 SKU）
+  const book = p && p.jdSku ? state.couponBook.get(p.jdSku) : null;
+  const chips = book && book.coupons.length
+    ? `<div class="cq-note" style="margin-top:8px">我的券：${book.coupons.map((c, i) =>
+        `<span class="cq-chip">满${(c.threshold / 100).toFixed(0)}减${(c.amount / 100).toFixed(0)}
+         <a href="javascript:void(0)" onclick="removeCoupon(${pid},${i})" style="color:#ff9b9b;margin-left:4px">×</a></span>`).join("")}
+        <span style="color:var(--dim)">· ${esc(book.source === "extension" ? "扩展上报" : "已检测")} · ${esc(fmtTime(book.at))}</span></div>`
+    : "";
+
+  return `<div class="cq">${tiers.join("")}</div>
+    <div class="cq-note">${esc(hint)}${notes}</div>
+    ${chips}
+    <div class="cq-actions">
+      <button class="btn sm" type="button" onclick="couponFetch(${pid})">检测我的京东券</button>
+      <button class="btn sm" type="button" onclick="toggleExt()">怎么安装扩展</button>
+    </div>
+    <div id="cqExt" hidden>
+      <div class="cq-note" style="margin-top:10px">
+        扩展只做两件事：读取你在京东商品页上<b>已经渲染出来的优惠券文字</b>，把「门槛 / 面额」上报到本机接口。
+        它不读 cookie、不代登录、不上传账号信息；券数据只在内存里放 10 分钟，关掉服务就没了。<br/>
+        用法：加载数据侧提供的浏览器扩展（本包未附带）→
+        打开京东商品页点一次「同步到本页」→ 回到本页点「检测我的京东券」。本页不提供外链下载。
+      </div>
+    </div>`;
+}
+
+/** 有券且确实更便宜 → true */
+function isCut(q, price) {
+  return !!(q && q.final != null && price != null && q.final < price);
+}
+
+/** 弹层大价格：有券显示券后价 + 券前价划掉 */
+function bigPriceHTML(v, q) {
+  if (v.main == null) {
+    return `<span class="p" style="color:var(--dim);font-size:24px">无价格信息</span>
+      <span class="m">暂无参考价</span>`;
+  }
+  if (v.isLive && isCut(q, v.live)) {
+    return `<span class="p" style="color:#9fd0ff">${money(q.final)}</span>
+      <span class="m">券后价 · 京东自营 <s>${money(v.live)}</s> · 已减 ${money(v.live - q.final)}</span>`;
+  }
+  if (v.isLive) {
+    return `<span class="p">${money(v.live)}</span>
+      <span class="m">京东自营${v.liveAt ? " · 更新于 " + esc(fmtTime(v.liveAt)) : "实时价"} · <span style="color:#f0b37e">未计算折扣券</span></span>`;
+  }
+  return `<span class="p" style="color:var(--dim);font-size:24px">无价格信息</span>
+    <span class="m">${v.ref != null ? "参考价 " + money(v.ref) + "（ZOL，可能滞后）" : "暂无参考价"}</span>`;
+}
+
+function updateModalPrice(pid) {
+  const el = $("mBigPrice");
+  if (!el || !state.vm) return;
+  const p = state.vm.products.find((x) => x.id === pid);
+  const deal = state.vm.deals.get(pid);
+  if (!p) return;
+  el.innerHTML = bigPriceHTML(priceView(p, deal), state.quotes.get(pid));
+}
+
+/** 商品详情 */
+
+
+async function refreshQuotesForBook() {
+  if (!COUPONS_ENABLED) return;
+  if (!state.vm) return;
+  const keep = new Set();
+  for (const [sku] of state.couponBook) {
+    const p = state.vm.products.find((x) => x.jdSku === sku);
+    if (!p) continue;
+    keep.add(p.id);
+    const q = await computeQuoteFor(p.id);
+    if (q) state.quotes.set(p.id, q);
+  }
+  // 券被删掉的商品，回到券前价
+  for (const pid of [...state.quotes.keys()]) if (!keep.has(pid)) state.quotes.delete(pid);
+  renderCouponBadge();
+  renderHero();
+  renderGrid();
+}
+
+async function loadQuote(pid) {
+  const box = $("couponBox");
+  if (!box) return;
+  const cached = state.quotes.get(pid);
+  if (cached) { box.innerHTML = couponHTML(pid, cached); return; }
+  const q = await computeQuoteFor(pid);
+  if (q) { state.quotes.set(pid, q); updateModalPrice(pid); }
+  const box2 = $("couponBox");
+  if (box2) box2.innerHTML = couponHTML(pid, q);
+  if (q && q.final < q.price) renderGrid();   // 卡片上露出到手价
+}
+
+async function couponFetch(pid) {
+  if (!COUPONS_ENABLED) return null;
+}
+async function couponFetch_unused(pid) {
+  const box = $("couponBox");
+  if (box) box.innerHTML = `<div class="cq-note">正在检测你的京东券…</div>`;
+  const p = state.vm.products.find((x) => x.id === pid);
+  state.quotes.delete(pid);
+
+  if (p && p.jdSku) {
+    const r = await API.userCoupons(p.jdSku);
+    const list = (r.ok && r.data && r.data.coupons) || [];
+    if (list.length) {
+      recordCoupons(pid, list, "extension");
+      toast("检测到 " + list.length + " 张券");
+    } else {
+      toast("没检测到券：装扩展后，在京东商品页点「同步券到本页」再回来检测", 4000);
+    }
+  }
+
+  const q = await computeQuoteFor(pid);
+  if (q) { state.quotes.set(pid, q); updateModalPrice(pid); }
+  const box2 = $("couponBox");
+  if (box2) box2.innerHTML = couponHTML(pid, q);
+  if (q && q.final < q.price) renderGrid();
+}
+
+function toggleExt() {
+  const e = $("cqExt");
+  if (!e) return;
+  e.hidden = !e.hidden;
+}
+
+/** 把券写进服务端（供 /api/quote 与扩展共用）并记到本地账本 */
+async function saveCoupons(pid, coupons, source) {
+  const p = state.vm.products.find((x) => x.id === pid);
+  if (!p || !p.jdSku) return false;
+  const r = await API.saveCoupons(p.jdSku, coupons);
+  if (!r.ok) { toast("保存失败：" + ((r.error && r.error.message) || "接口不可用")); return false; }
+  recordCoupons(pid, coupons, source);
+  return true;
+}
+
+function recordCoupons(pid, coupons, source) {
+  const p = state.vm.products.find((x) => x.id === pid);
+  if (!p || !p.jdSku) return;
+  if (!coupons || !coupons.length) { state.couponBook.delete(p.jdSku); saveBook(); renderCouponBadge(); return; }
+  state.couponBook.set(p.jdSku, {
+    coupons: coupons.slice(0, 10),
+    at: new Date().toISOString(),
+    source: source || "manual",
+    pid,
+  });
+  saveBook();
+  renderCouponBadge();
+  refreshQuotesForBook();   // 列表主价跟着变
+}
+
+async function removeCoupon(pid, index) {
+  const p = state.vm.products.find((x) => x.id === pid);
+  if (!p || !p.jdSku) return;
+  const book = state.couponBook.get(p.jdSku);
+  if (!book) return;
+  const next = book.coupons.filter((_, i) => i !== index);
+  if (next.length) await saveCoupons(pid, next, book.source);
+  else { await API.saveCoupons(p.jdSku, []); state.couponBook.delete(p.jdSku); saveBook(); renderCouponBadge(); }
+
+  state.quotes.delete(pid);
+  const q = await computeQuoteFor(pid);
+  if (q) { state.quotes.set(pid, q); updateModalPrice(pid); }
+  const cbox = $("couponBox");
+  if (cbox) cbox.innerHTML = couponHTML(pid, q);
+  renderGrid();
+}
+
+/* ================================================================
+   6.6 我的券：本地账本 + 抽屉
+   ----------------------------------------------------------------
+   券本身存在服务端内存（10 分钟），这里只存"哪个 SKU 有哪些券"，
+   方便显示、跨商品查看；不上传、不落库。
+   ================================================================ */
+function saveBook() {
+  try {
+    const obj = {};
+    for (const [sku, v] of state.couponBook) obj[sku] = v;
+    localStorage.setItem(CONFIG.couponKey, JSON.stringify(obj));
+  } catch (e) { /* 配额满就跳过 */ }
+}
+
+function loadBook() {
+  try {
+    const raw = localStorage.getItem(CONFIG.couponKey);
+    if (!raw) return;
+    const obj = JSON.parse(raw);
+    for (const [sku, v] of Object.entries(obj || {})) {
+      if (v && Array.isArray(v.coupons) && v.coupons.length) state.couponBook.set(sku, v);
+    }
+  } catch (e) { /* 忽略 */ }
+}
+
+function renderCouponBadge() {
+  const el = $("couponCount");
+  if (el) el.textContent = String(state.couponBook.size);
+  const btn = $("couponBtn");
+  if (btn) btn.classList.toggle("has", state.couponBook.size > 0);
+}
+
+function openCouponDrawer(noSync) {
+  const body = $("cdBody");
+  const sub = $("cdSub");
+  if (!body) return;
+  const rows = [...state.couponBook.entries()]
+    .sort((a, b) => String(b[1].at).localeCompare(String(a[1].at)));
+
+  if (!rows.length) {
+    body.innerHTML = `<div class="empty" style="padding:26px 10px">
+      还没有检测到券。<br/>在商品详情里点「检测我的京东券」（需要先装扩展并在京东页同步一次）。</div>`;
+    if (sub) sub.textContent = "券只存在本机内存 10 分钟，不上传、不落库";
+  } else {
+    body.innerHTML = `<div class="cq-list">${rows.map(([sku, v]) => {
+      const p = state.vm.products.find((x) => x.jdSku === sku);
+      const name = p ? `${p.brand || ""} ${p.model || ""}`.trim() : "SKU " + sku;
+      return `<div class="cq-item">
+        <div class="n">${esc(name)}
+          <div class="m">${v.coupons.map((c) =>
+            `<span class="cq-chip">满${(c.threshold / 100).toFixed(0)}减${(c.amount / 100).toFixed(0)}</span>`).join("")}
+            <span style="color:var(--dim)">${esc(v.source === "extension" ? "扩展上报" : "已检测")} · ${esc(fmtTime(v.at))}</span>
+          </div>
+        </div>
+        ${p ? `<button class="btn sm" type="button" onclick="openFromDrawer(${p.id})">查看商品</button>` : ""}
+      </div>`;
+    }).join("")}</div>`;
+    if (sub) sub.textContent = `共 ${rows.length} 个商品检测到券 · 数据只在本机内存`;
+  }
+  $("couponDrawer").hidden = false;
+  document.body.style.overflow = "hidden";
+
+  // 打开时顺手把扩展刚上报的券收进来（不再递归）
+  if (!noSync) {
+    syncCouponBook().then(() => {
+      if (!$("couponDrawer").hidden) openCouponDrawer(true);
+    });
+  }
+}
+
+function closeCouponDrawer() {
+  $("couponDrawer").hidden = true;
+  document.body.style.overflow = "";
+}
+
+function openFromDrawer(pid) {
+  closeCouponDrawer();
+  openProduct(pid);
+}
+
+/** 自动同步：把服务端已上报的券拉回本地账本（扩展上报后无需逐个点开商品） */
+async function syncCouponBook() {
+  const skus = state.vm.products.map((p) => p.jdSku).filter(Boolean);
+  await Promise.all(skus.map(async (sku) => {
+    const r = await API.userCoupons(sku);
+    if (!r.ok) return;
+    const list = (r.data && r.data.coupons) || [];
+    if (list.length) {
+      const p = state.vm.products.find((x) => x.jdSku === sku);
+      const old = state.couponBook.get(sku);
+      // 服务端是权威；本地只补充 source
+      state.couponBook.set(sku, {
+        coupons: list,
+        at: (old && old.at) || new Date().toISOString(),
+        source: (old && old.source) || "extension",
+        pid: p ? p.id : null,
+      });
+    }
+  }));
+  saveBook();
+  renderCouponBadge();
+  refreshQuotesForBook();
+}
+
+/* ================================================================
+   6.7 自动刷新：每 30 秒检查一次，手动刷新照旧
+   ----------------------------------------------------------------
+   - 自动：只 GET /api/snapshot 比对 generated_at（轻量、不触发抓取）
+   - 手动：POST /api/refresh → 真采集（后端支持时）；只读包则回落到检查快照
+   - 页面切到后台时暂停，回来立刻补一次
+   ================================================================ */
+function startAuto() {
+  stopAuto();
+  if (!state.autoOn) { renderAuto(); return; }
+  state.autoNext = CONFIG.autoSeconds;
+  renderAuto();
+  state.autoTimer = setInterval(() => {
+    state.autoNext -= 1;
+    if (state.autoNext <= 0) {
+      state.autoNext = CONFIG.autoSeconds;
+      autoCheck();
+    }
+    renderAuto();
+  }, 1000);
+}
+
+function stopAuto() {
+  if (state.autoTimer) clearInterval(state.autoTimer);
+  state.autoTimer = null;
+}
+
+function renderAuto() {
+  const sec = $("autoSec");
+  const pill = $("autoPill");
+  const btn = $("autoToggle");
+  if (sec) sec.textContent = String(Math.max(0, state.autoNext));
+  if (pill) pill.classList.toggle("off", !state.autoOn);
+  if (btn) btn.textContent = state.autoOn ? "暂停" : "开启";
+}
+
+async function autoCheck() {
+  if (!state.vm) return;
+  const res = await API.snapshot();
+  if (!res.ok || !res.data) return;
+  if (res.data.generated_at !== state.vm.meta.dataAt) {
+    applySnapshot(res.data, false);
+    toast("已自动更新到 " + fmtTime(res.data.generated_at));
+  }
+}
+
+/** 手动刷新：先试真采集；只读包则重新检查快照 */
+async function checkNow(manual) {
+  const res = await API.snapshot();
+  if (!res.ok || !res.data) {
+    if (manual) toast("读取失败，请稍后再试");
+    return false;
+  }
+  if (res.data.generated_at !== state.vm.meta.dataAt) {
+    applySnapshot(res.data, false);
+    toast("数据已更新至 " + fmtTime(res.data.generated_at));
+    return true;
+  }
+  if (manual) toast("已是最新：数据时间 " + fmtTime(res.data.generated_at), 2600);
+  return false;
+}
+
+/* ================================================================
+   6.8 京东实时价（F3）
+   ----------------------------------------------------------------
+   - 主价只用 /api/jd-price 的 price；抓不到就保持"无价格信息"
+   - 三种返回都要处理：available / no_sku / fetch_failed
+   - 同一商品 5 分钟内只自动请求一次；按钮点击可强制刷新
+   ================================================================ */
+const JD_TTL_MS = 5 * 60 * 1000;
+
+/** 兼容 {ok,data} 与裸对象两种返回 */
+function payload(res) {
+  if (!res) return null;
+  if (res.ok === false) return null;
+  return res.data !== undefined && res.data !== null ? res.data : res;
+}
+
+async function fetchJdPrice(pid, force) {
+  const p = state.vm && state.vm.products.find((x) => x.id === pid);
+  if (!p) return;
+  if (p.jdSku == null) {
+    state.jd.set(pid, { status: "no_sku", ts: Date.now() });
+    renderGrid();
+    toast("该商品还没有关联京东商品，去「配对审核」确认一下", 3200);
+    return;
+  }
+  const cur = state.jd.get(pid);
+  if (!force && cur && cur.ts && Date.now() - cur.ts < JD_TTL_MS) return;
+
+  state.jd.set(pid, Object.assign({}, cur || {}, { status: "loading", ts: Date.now() }));
+  renderGrid();
+
+  const res = await API.jdPrice(pid);
+  const d = payload(res);
+
+  if (!d) {
+    state.jd.set(pid, Object.assign({}, cur || {}, { status: "failed", reason: "api_error", ts: Date.now() }));
+    renderGrid();
+    updateModalPrice(pid);
+    toast("京东价接口未就绪（/api/jd-price），先按无价格信息展示", 3600);
+    return;
+  }
+
+  if (d.available === true && d.price != null) {
+    state.jd.set(pid, {
+      status: "ok",
+      price: toCents(d.price),
+      at: d.captured_at || d.capturedAt || null,
+      cached: !!d.cached,
+      ts: Date.now(),
+    });
+    renderGrid();
+    updateModalPrice(pid);
+    toast(d.cached ? "已用 5 分钟内缓存价" : "已更新京东价", 2000);
+    return;
+  }
+
+  if (d.reason === "no_sku") {
+    state.jd.set(pid, { status: "no_sku", ts: Date.now() });
+    renderGrid();
+    updateModalPrice(pid);
+    toast("京东没有对应商品", 2600);
+    return;
+  }
+
+  // fetch_failed：有上次价就显示上次，但绝不冒充实时
+  state.jd.set(pid, {
+    status: "failed",
+    reason: d.reason || "fetch_failed",
+    lastPrice: d.last_price != null ? toCents(d.last_price) : (cur && cur.price) || null,
+    lastAt: d.last_captured_at || d.lastCapturedAt || (cur && cur.at) || null,
+    ts: Date.now(),
+  });
+  renderGrid();
+  updateModalPrice(pid);
+  toast("本次未抓到京东价" + (d.last_price != null ? "，显示上次价格" : ""), 3200);
+}
+
+/* ================================================================
+   6.9 京东对应关系确认（F5）
+   ----------------------------------------------------------------
+   GET  /api/jd-match?status=review  → 待确认列表（含 Top3 候选）
+   POST /api/jd-match {product_id, jd_sku} → 确认
+   ================================================================ */
+async function openMatchDrawer() {
+  const body = $("matchBody");
+  if (!body) return;
+  body.innerHTML = `<div class="empty">正在读取待确认的对应关系…</div>`;
+  $("matchDrawer").hidden = false;
+  document.body.style.overflow = "hidden";
+
+  const res = await API.jdMatch("review");
+  const d = payload(res);
+  if (!d) {
+    body.innerHTML = `<div class="empty" style="padding:26px 10px">
+      接口 <code>/api/jd-match</code> 还没就绪（或没有待确认项）。<br/>
+      数据侧上线后，这里会列出「商品 → 京东 Top3 候选」，点一个即可确认。</div>`;
+    return;
+  }
+
+  const items = d.items || d.list || d.review || [];
+  if (!items.length) {
+    body.innerHTML = `<div class="empty" style="padding:26px 10px">没有待确认的对应关系 🎉</div>`;
+    return;
+  }
+
+  body.innerHTML = `<div class="cq-list">${items.map((it) => {
+    const cands = it.candidates || it.top3 || [];
+    // 后端 items 里没有 model，用商品表补；没有再退 jd_title
+    const prod = state.vm.products.find((x) => x.id === Number(it.product_id));
+    const label = prod ? `${prod.brand || ""} ${prod.model || ""}`.trim() : (it.model || it.title || it.jd_title || ("商品 #" + it.product_id));
+    return `<div class="match-item" data-pid="${it.product_id}">
+      <div class="mt">${esc(label)}</div>
+      <div class="mc">${cands.map((c) => `
+        <button class="btn sm" type="button" data-confirm="${it.product_id}" data-sku="${esc(c.sku || c.jd_sku)}"
+          title="${esc(c.name || c.title || "")}">
+          <b>${esc(c.name || c.title || c.sku || c.jd_sku)}</b>
+          ${c.price != null ? `<span style="color:var(--green)">${money(toCents(c.price))}</span>` : ""}
+        </button>`).join("") || '<span class="flat">无候选</span>'}
+      </div>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function closeMatchDrawer() {
+  $("matchDrawer").hidden = true;
+  document.body.style.overflow = "";
+}
+
+async function confirmMatch(productId, jdSku) {
+  if (!jdSku) return;
+  const res = await API.confirmMatch(productId, jdSku);
+  if (!payload(res)) { toast("确认失败：" + ((res && res.error && res.error.message) || "接口不可用")); return; }
+  toast("已确认映射，正在刷新…");
+  state.jd.delete(productId);
+  // 映射变了，重新拉快照
+  await checkNow(false);
+  openMatchDrawer();
+}
+
+/* ================================================================
+   7. 扩展点：以后加新板块，不用改主渲染
+   ----------------------------------------------------------------
+   BID.register({
+     id: "coupon-board",
+     mount(ctx) { // ctx = { vm, caps, root, api, money, esc } }
+   })
+   ================================================================ */
+const modules = [];
+function registerModule(mod) {
+  if (!mod || !mod.id) return;
+  modules.push(mod);
+  if (state.vm) mountModules();     // 已渲染则立即挂载
+}
+function mountModules() {
+  const ctx = { vm: state.vm, caps: state.caps, root: document, api: API, money, esc };
+  for (const m of modules) {
+    try { m.mount(ctx); } catch (e) { console.warn("[module]", m.id, e); }
+  }
+}
+
+/* ================================================================
+   8. 启动
+   ================================================================ */
+function applySnapshot(raw, offline) {
+  state.raw = raw;
+  state.vm = Adapter.normalize(raw);
+  state.caps = Adapter.capabilities(state.vm);
+  state.offline = !!offline;
+
+  const notice = $("notice");
+  if (offline) {
+    notice.classList.add("offline");
+    $("noticeText").innerHTML = `网络不可用，当前显示 <b>${esc(fmtTime(state.vm.meta.dataAt))}</b> 的本地缓存数据（图片为本地文件，可正常显示）。`;
+  } else {
+    notice.classList.remove("offline");
+    if (state.caps.hasCoupons) {
+      $("noticeText").innerHTML = `价格含“领券后”档位，条件价已单列。主价始终为<b>券前价 · 单件 · 普通用户</b>，不含支付优惠。`;
+    }
+  }
+
+  renderHero();
+  renderGrid();
+  renderReference();
+  const refJumpBtn = document.getElementById("refJump");
+  if (refJumpBtn && !refJumpBtn.__bound) { refJumpBtn.__bound = 1; refJumpBtn.addEventListener("click", window.__refJump); }
+  renderCats();
+  renderGroups();
+  paintSite();
+  mountModules();
+}
+
+async function loadSnapshot() {
+  // ① 接口
+  const res = await API.snapshot();
+  if (res.ok && res.data) return { raw: res.data, offline: false };
+
+  // ② 静态文件（服务没起 / 接口 404）
+  try {
+    const r = await fetch(CONFIG.fallbackSnapshot, { cache: "no-store" });
+    if (r.ok) {
+      const raw = await r.json();
+      if (raw && raw.products) return { raw, offline: false };
+    }
+  } catch (e) { /* 继续 */ }
+
+  // ③ 本地缓存
+  try {
+    const cached = localStorage.getItem(CONFIG.cacheKey);
+    if (cached) return { raw: JSON.parse(cached), offline: true };
+  } catch (e) { /* 忽略 */ }
+
+  return { raw: null, offline: true };
+}
+
+async function boot() {
+  // 默认隐藏“抓京东价/刷新采集”按钮，避免评委现场点；需要时 URL 加 ?dev=1
+  try {
+    if (document.body && document.body.classList) {
+      document.body.classList.toggle("dev", new URLSearchParams(location.search).has("dev"));
+    }
+  } catch (e) { /* 测试环境没有 location */ }
+  const { raw, offline } = await loadSnapshot();
+  if (!raw) {
+    $("grid").innerHTML = `<div class="empty" style="grid-column:1/-1">
+      没有读到数据。<br/>请在项目目录运行 <code>node src/serve.mjs</code>，然后访问 http://localhost:8787</div>`;
+    $("genAt").textContent = "—";
+    return;
+  }
+  try { localStorage.setItem(CONFIG.cacheKey, JSON.stringify(raw)); } catch (e) { /* 配额满就跳过 */ }
+  loadBook();
+  applySnapshot(raw, offline);
+  renderCouponBadge();
+  syncCouponBook();   // 扩展上报过的券，启动时自动收进来
+  startAuto();        // 30 秒自动检查
+}
+
+/* ---------------- 事件 ---------------- */
+$("q").addEventListener("input", onSearchInput);
+$("q").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    if (state.cands.length) pickCandidate(Math.max(state.candIndex, 0));
+    else doSearch($("q").value.trim());
+  } else if (e.key === "Escape") {
+    closeCands();
+  } else if (e.key === "ArrowDown" && state.cands.length) {
+    e.preventDefault();
+    state.candIndex = Math.min(state.candIndex + 1, state.cands.length - 1);
+    hiliteCand();
+  } else if (e.key === "ArrowUp" && state.cands.length) {
+    e.preventDefault();
+    state.candIndex = Math.max(state.candIndex - 1, 0);
+    hiliteCand();
+  }
+});
+function hiliteCand() {
+  document.querySelectorAll(".cand").forEach((el, i) => el.classList.toggle("act", i === state.candIndex));
+}
+$("qClear").addEventListener("click", () => {
+  $("q").value = "";
+  state.q = "";
+  $("qClear").hidden = true;
+  closeCands();
+  renderGrid();
+  $("q").focus();
+});
+$("candList").addEventListener("click", (e) => {
+  const el = e.target.closest(".cand");
+  if (el) pickCandidate(Number(el.dataset.i));
+});
+$("candReject").addEventListener("click", rejectCandidates);
+$("sort").addEventListener("change", (e) => { state.sort = e.target.value; renderGrid(); });
+$("refreshBtn").addEventListener("click", doRefresh);
+$("matchBtn").addEventListener("click", openMatchDrawer);
+$("matchClose").addEventListener("click", closeMatchDrawer);
+$("matchDrawer").addEventListener("click", (e) => { if (e.target === $("matchDrawer")) closeMatchDrawer(); });
+// 卡片上的「更新价格」要拦截冒泡，别打开详情
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-jd]");
+  if (!b) return;
+  e.preventDefault();
+  e.stopPropagation();
+  fetchJdPrice(Number(b.dataset.jd), true);
+}, true);
+$("matchBody").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-confirm]");
+  if (b) confirmMatch(Number(b.dataset.confirm), b.dataset.sku);
+});
+/* 券功能已下线（COUPONS_ENABLED=false），不再绑定「我的券」入口 */
+$("cdClose").addEventListener("click", closeCouponDrawer);
+$("couponDrawer").addEventListener("click", (e) => { if (e.target === $("couponDrawer")) closeCouponDrawer(); });
+$("autoToggle").addEventListener("click", () => {
+  state.autoOn = !state.autoOn;
+  if (state.autoOn) { startAuto(); toast("自动检查已开启（30 秒）"); }
+  else { stopAuto(); renderAuto(); toast("自动检查已暂停"); }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopAuto();
+  else { startAuto(); autoCheck(); syncCouponBook(); }
+});
+$("mClose").addEventListener("click", closeProduct);
+$("overlay").addEventListener("click", (e) => { if (e.target === $("overlay")) closeProduct(); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (!$("matchDrawer").hidden) closeMatchDrawer();
+    else if (!$("couponDrawer").hidden) closeCouponDrawer();
+    else if (!$("overlay").hidden) closeProduct();
+    else closeCands();
+  }
+});
+$("grid").addEventListener("click", (e) => {
+  const card = e.target.closest(".card");
+  if (card) openProduct(Number(card.dataset.pid));
+});
+$("grid").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  if (e.target.closest("[data-jd]")) return;   // 焦点在「更新价格」上，别打开详情
+  const card = e.target.closest(".card");
+  if (card) { e.preventDefault(); openProduct(Number(card.dataset.pid)); }
+});
+// 点面板外面关闭候选
+document.addEventListener("click", (e) => {
+  if (!$("searchBox").contains(e.target)) closeCands();
+});
+
+/* 图片两级兜底：本地图 → 网图 → 占位块 */
+window.__refJump = function () {
+  const sec = document.getElementById("refSec");
+  if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+window.__chartMode = function (pid, mode, btn) {
+  const c = CHART.get(Number(pid));
+  if (!c) return;
+  const list = mode === "all" ? c.series : c.series.filter((s) => s.platform === mode);
+  const wrap = document.getElementById("chartWrap");
+  if (wrap) wrap.innerHTML = '<div class="chart-tip" id="chartTip"></div>' + chartSVG(list);
+  const lg = document.getElementById("chartLegend");
+  if (lg) lg.innerHTML = chartLegendHTML(list, c.priceFlat, c.hasJD);
+  if (btn && btn.parentElement) {
+    [...btn.parentElement.querySelectorAll("button")].forEach((b) => b.classList.toggle("on", b === btn));
+  }
+};
+
+window.__imgFallback = function (img) {
+  const alt = img.dataset.alt;
+  if (alt && img.src.indexOf(alt) === -1) {
+    img.dataset.alt = "";          // 只换一次，避免死循环
+    img.src = alt;
+    return;
+  }
+  img.classList.add("broken");     // 回退到卡片里的首字母占位
+};
+
+/* ================================================================
+   对外暴露：给未来的模块 / 脚本用
+   window.BID = {
+     version, config, field, adapter, api, state,
+     register,      // 注册新板块
+     openProduct,   // 打开某商品
+     reload,        // 重新取数并渲染
+     normalize,     // 原始快照 → 视图模型（调试用）
+     ingest,        // 直接把外部数据塞进来
+   }
+   ================================================================ */
+window.BID = {
+  version: "2.0.0",
+  config: CONFIG,
+  field: FIELD,
+  adapter: Adapter,
+  api: API,
+  state,
+  register: registerModule,
+  openProduct,
+  normalize: (raw) => Adapter.normalize(raw),
+  reload: async () => {
+    const { raw, offline } = await loadSnapshot();
+    if (raw) applySnapshot(raw, offline);
+  },
+  /** 直接塞一份外部数据进来（例如未来从别的接口拿到的新结构） */
+  ingest: (raw) => applySnapshot(raw, false),
+};
+
+boot();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

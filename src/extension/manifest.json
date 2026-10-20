@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "比价助手 · 我的券同步",
+  "version": "0.1.0",
+  "description": "只在你主动点击时，把当前京东商品页上可见的优惠券，发到本机的比价页面。不读 cookie、不上传任何服务器。",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["https://item.jd.com/*", "http://127.0.0.1:8787/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://item.jd.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

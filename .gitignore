@@ -1,0 +1,23 @@
+# 运行产物，不要提交
+logs/
+*.log
+browser-profile/
+.tmp/
+node_modules/
+data/price.db-wal
+data/price.db-shm
+data/.jd-cooldown.json
+data/.jd-login.json
+data/.jd-match.lock
+data/share/
+data/raw/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 本地配置
+.env
+.env.*
