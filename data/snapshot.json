@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-10-20T16:21:47+08:00",
-  "exported_at": "2026-10-20T16:21:52+08:00",
+  "exported_at": "2026-10-20T09:06:49+00:00",
   "site": {
     "name": "京东硬件价格追踪",
     "tagline": "不止告诉你现在多少钱，还告诉你这个价值不值得买",
@@ -33,7 +33,7 @@
   "counts": {
     "products": 80,
     "listings": 88,
-    "history_points": 581
+    "history_points": 609
   },
   "products": [
     {
@@ -3441,6 +3441,10 @@
           539900
         ],
         [
+          "2026-10-20T09:03:31+00:00",
+          539900
+        ],
+        [
           "2026-10-20T13:03:11+08:00",
           539900
         ],
@@ -3495,6 +3499,10 @@
           724900
         ],
         [
+          "2026-10-20T09:03:35+00:00",
+          724900
+        ],
+        [
           "2026-10-20T13:03:37+08:00",
           724900
         ],
@@ -3542,6 +3550,10 @@
         ],
         [
           "2026-10-19T10:17:08+08:00",
+          254900
+        ],
+        [
+          "2026-10-20T09:03:37+00:00",
           254900
         ],
         [
@@ -3823,6 +3835,10 @@
           36900
         ],
         [
+          "2026-10-20T09:04:07+00:00",
+          36900
+        ],
+        [
           "2026-10-20T14:05:55+08:00",
           36900
         ],
@@ -3873,6 +3889,10 @@
           39900
         ],
         [
+          "2026-10-20T09:04:09+00:00",
+          39900
+        ],
+        [
           "2026-10-20T14:05:57+08:00",
           39900
         ],
@@ -3920,6 +3940,10 @@
         ],
         [
           "2026-10-19T23:05:59+08:00",
+          89900
+        ],
+        [
+          "2026-10-20T09:04:11+00:00",
           89900
         ],
         [
@@ -4251,6 +4275,10 @@
           19900
         ],
         [
+          "2026-10-20T09:04:32+00:00",
+          19900
+        ],
+        [
           "2026-10-20T14:06:27+08:00",
           19900
         ],
@@ -4294,6 +4322,10 @@
         ],
         [
           "2026-10-19T23:06:31+08:00",
+          44900
+        ],
+        [
+          "2026-10-20T09:04:36+00:00",
           44900
         ],
         [
@@ -4343,6 +4375,10 @@
           47900
         ],
         [
+          "2026-10-20T09:04:42+00:00",
+          47900
+        ],
+        [
           "2026-10-20T14:06:38+08:00",
           47900
         ],
@@ -4386,6 +4422,10 @@
         ],
         [
           "2026-10-19T23:06:39+08:00",
+          18900
+        ],
+        [
+          "2026-10-20T09:04:44+00:00",
           18900
         ],
         [
@@ -4435,6 +4475,10 @@
           32900
         ],
         [
+          "2026-10-20T09:04:47+00:00",
+          32900
+        ],
+        [
           "2026-10-20T14:06:44+08:00",
           32900
         ],
@@ -4478,6 +4522,10 @@
         ],
         [
           "2026-10-19T23:06:45+08:00",
+          18900
+        ],
+        [
+          "2026-10-20T09:04:49+00:00",
           18900
         ],
         [
@@ -5453,6 +5501,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:03:17+00:00",
+          1599900
+        ],
+        [
           "2026-10-20T13:02:55+08:00",
           1599900
         ],
@@ -5478,6 +5530,10 @@
       "product_id": 163,
       "platform": "zol",
       "points": [
+        [
+          "2026-10-20T09:03:19+00:00",
+          409900
+        ],
         [
           "2026-10-20T13:02:57+08:00",
           409900
@@ -5505,6 +5561,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:03:21+00:00",
+          289900
+        ],
+        [
           "2026-10-20T13:02:59+08:00",
           289900
         ],
@@ -5530,6 +5590,10 @@
       "product_id": 165,
       "platform": "zol",
       "points": [
+        [
+          "2026-10-20T09:03:23+00:00",
+          249900
+        ],
         [
           "2026-10-20T13:03:01+08:00",
           249900
@@ -5557,6 +5621,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:03:25+00:00",
+          849900
+        ],
+        [
           "2026-10-20T13:03:03+08:00",
           849900
         ],
@@ -5583,6 +5651,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:03:49+00:00",
+          409900
+        ],
+        [
           "2026-10-20T13:03:57+08:00",
           409900
         ],
@@ -5600,6 +5672,10 @@
       "product_id": 183,
       "platform": "zol",
       "points": [
+        [
+          "2026-10-20T09:03:51+00:00",
+          1089900
+        ],
         [
           "2026-10-20T13:03:59+08:00",
           1089900
@@ -5619,6 +5695,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:03:53+00:00",
+          554900
+        ],
+        [
           "2026-10-20T13:04:05+08:00",
           554900
         ],
@@ -5636,6 +5716,10 @@
       "product_id": 187,
       "platform": "zol",
       "points": [
+        [
+          "2026-10-20T09:03:55+00:00",
+          609900
+        ],
         [
           "2026-10-20T13:04:07+08:00",
           609900
@@ -5655,6 +5739,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:03:57+00:00",
+          609900
+        ],
+        [
           "2026-10-20T13:04:09+08:00",
           609900
         ],
@@ -5669,19 +5757,13 @@
       ]
     },
     {
-      "product_id": 189,
-      "platform": "zol",
-      "points": [
-        [
-          "2026-10-20T13:04:11+08:00",
-          549900
-        ]
-      ]
-    },
-    {
       "product_id": 190,
       "platform": "zol",
       "points": [
+        [
+          "2026-10-20T09:04:15+00:00",
+          47900
+        ],
         [
           "2026-10-20T14:06:03+08:00",
           47900
@@ -5697,6 +5779,10 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:04:19+00:00",
+          75900
+        ],
+        [
           "2026-10-20T14:06:06+08:00",
           75900
         ],
@@ -5711,12 +5797,44 @@
       "platform": "zol",
       "points": [
         [
+          "2026-10-20T09:04:27+00:00",
+          23500
+        ],
+        [
           "2026-10-20T14:06:15+08:00",
           23500
         ],
         [
           "2026-10-20T15:06:15+08:00",
           23500
+        ]
+      ]
+    },
+    {
+      "product_id": 200,
+      "platform": "zol",
+      "points": [
+        [
+          "2026-10-20T09:04:51+00:00",
+          47900
+        ],
+        [
+          "2026-10-20T14:06:48+08:00",
+          47900
+        ],
+        [
+          "2026-10-20T15:06:47+08:00",
+          47900
+        ]
+      ]
+    },
+    {
+      "product_id": 189,
+      "platform": "zol",
+      "points": [
+        [
+          "2026-10-20T13:04:11+08:00",
+          549900
         ]
       ]
     },
@@ -5731,20 +5849,6 @@
         [
           "2026-10-20T15:06:21+08:00",
           47000
-        ]
-      ]
-    },
-    {
-      "product_id": 200,
-      "platform": "zol",
-      "points": [
-        [
-          "2026-10-20T14:06:48+08:00",
-          47900
-        ],
-        [
-          "2026-10-20T15:06:47+08:00",
-          47900
         ]
       ]
     },
@@ -6306,9 +6410,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 11,
+      "hist_points": 12,
       "trend_platform": "zol",
-      "trend_points": 11,
+      "trend_points": 12,
       "trend": [
         {
           "t": "2026-10-18T17:37:50+08:00",
@@ -6335,6 +6439,10 @@
           "p": 724900
         },
         {
+          "t": "2026-10-20T09:03:35+00:00",
+          "p": 724900
+        },
+        {
           "t": "2026-10-20T13:03:37+08:00",
           "p": 724900
         },
@@ -6358,7 +6466,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 724900,
-      "points": 11,
+      "points": 12,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -6380,9 +6488,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 11,
+      "hist_points": 12,
       "trend_platform": "zol",
-      "trend_points": 11,
+      "trend_points": 12,
       "trend": [
         {
           "t": "2026-10-18T17:37:51+08:00",
@@ -6409,6 +6517,10 @@
           "p": 254900
         },
         {
+          "t": "2026-10-20T09:03:37+00:00",
+          "p": 254900
+        },
+        {
           "t": "2026-10-20T13:03:41+08:00",
           "p": 254900
         },
@@ -6432,7 +6544,7 @@
       "msrp": 249900,
       "discount_vs_msrp": -0.02,
       "hist_avg": 254900,
-      "points": 11,
+      "points": 12,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -6754,9 +6866,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 12,
+      "hist_points": 13,
       "trend_platform": "zol",
-      "trend_points": 12,
+      "trend_points": 13,
       "trend": [
         {
           "t": "2026-10-18T21:56:15+08:00",
@@ -6799,6 +6911,10 @@
           "p": 36900
         },
         {
+          "t": "2026-10-20T09:04:07+00:00",
+          "p": 36900
+        },
+        {
           "t": "2026-10-20T14:05:55+08:00",
           "p": 36900
         },
@@ -6810,7 +6926,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 36900,
-      "points": 12,
+      "points": 13,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -6832,9 +6948,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 11,
+      "hist_points": 12,
       "trend_platform": "zol",
-      "trend_points": 11,
+      "trend_points": 12,
       "trend": [
         {
           "t": "2026-10-19T10:17:29+08:00",
@@ -6873,6 +6989,10 @@
           "p": 39900
         },
         {
+          "t": "2026-10-20T09:04:09+00:00",
+          "p": 39900
+        },
+        {
           "t": "2026-10-20T14:05:57+08:00",
           "p": 39900
         },
@@ -6884,7 +7004,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 39900,
-      "points": 11,
+      "points": 12,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -6906,9 +7026,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 11,
+      "hist_points": 12,
       "trend_platform": "zol",
-      "trend_points": 11,
+      "trend_points": 12,
       "trend": [
         {
           "t": "2026-10-19T10:17:31+08:00",
@@ -6947,6 +7067,10 @@
           "p": 89900
         },
         {
+          "t": "2026-10-20T09:04:11+00:00",
+          "p": 89900
+        },
+        {
           "t": "2026-10-20T14:05:59+08:00",
           "p": 89900
         },
@@ -6958,7 +7082,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 89900,
-      "points": 11,
+      "points": 12,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -7427,12 +7551,12 @@
       "hist_min": 19900,
       "hist_max": 25900,
       "hist_median": 19900,
-      "vs_avg_pct": 23.9,
+      "vs_avg_pct": 22.3,
       "vs_min_pct": 30.2,
       "at_hist_low": false,
-      "hist_points": 12,
+      "hist_points": 14,
       "trend_platform": "zol",
-      "trend_points": 10,
+      "trend_points": 11,
       "trend": [
         {
           "t": "2026-10-19T17:53:39+08:00",
@@ -7467,6 +7591,10 @@
           "p": 19900
         },
         {
+          "t": "2026-10-20T09:04:32+00:00",
+          "p": 19900
+        },
+        {
           "t": "2026-10-20T14:06:27+08:00",
           "p": 19900
         },
@@ -7477,8 +7605,8 @@
       ],
       "msrp": null,
       "discount_vs_msrp": null,
-      "hist_avg": 20900,
-      "points": 12,
+      "hist_avg": 21186,
+      "points": 14,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -7500,9 +7628,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 10,
+      "hist_points": 11,
       "trend_platform": "zol",
-      "trend_points": 10,
+      "trend_points": 11,
       "trend": [
         {
           "t": "2026-10-19T17:53:43+08:00",
@@ -7537,6 +7665,10 @@
           "p": 44900
         },
         {
+          "t": "2026-10-20T09:04:36+00:00",
+          "p": 44900
+        },
+        {
           "t": "2026-10-20T14:06:32+08:00",
           "p": 44900
         },
@@ -7548,7 +7680,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 44900,
-      "points": 10,
+      "points": 11,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -7570,9 +7702,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 10,
+      "hist_points": 11,
       "trend_platform": "zol",
-      "trend_points": 10,
+      "trend_points": 11,
       "trend": [
         {
           "t": "2026-10-19T17:53:49+08:00",
@@ -7607,6 +7739,10 @@
           "p": 47900
         },
         {
+          "t": "2026-10-20T09:04:42+00:00",
+          "p": 47900
+        },
+        {
           "t": "2026-10-20T14:06:38+08:00",
           "p": 47900
         },
@@ -7618,7 +7754,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 47900,
-      "points": 10,
+      "points": 11,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -7640,9 +7776,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 10,
+      "hist_points": 11,
       "trend_platform": "zol",
-      "trend_points": 10,
+      "trend_points": 11,
       "trend": [
         {
           "t": "2026-10-19T17:53:51+08:00",
@@ -7677,6 +7813,10 @@
           "p": 18900
         },
         {
+          "t": "2026-10-20T09:04:44+00:00",
+          "p": 18900
+        },
+        {
           "t": "2026-10-20T14:06:40+08:00",
           "p": 18900
         },
@@ -7688,7 +7828,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 18900,
-      "points": 10,
+      "points": 11,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -7710,9 +7850,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 10,
+      "hist_points": 11,
       "trend_platform": "zol",
-      "trend_points": 10,
+      "trend_points": 11,
       "trend": [
         {
           "t": "2026-10-19T17:53:55+08:00",
@@ -7747,6 +7887,10 @@
           "p": 32900
         },
         {
+          "t": "2026-10-20T09:04:47+00:00",
+          "p": 32900
+        },
+        {
           "t": "2026-10-20T14:06:44+08:00",
           "p": 32900
         },
@@ -7758,7 +7902,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 32900,
-      "points": 10,
+      "points": 11,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -7780,9 +7924,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 10,
+      "hist_points": 11,
       "trend_platform": "zol",
-      "trend_points": 10,
+      "trend_points": 11,
       "trend": [
         {
           "t": "2026-10-19T17:53:57+08:00",
@@ -7817,6 +7961,10 @@
           "p": 18900
         },
         {
+          "t": "2026-10-20T09:04:49+00:00",
+          "p": 18900
+        },
+        {
           "t": "2026-10-20T14:06:46+08:00",
           "p": 18900
         },
@@ -7828,7 +7976,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 18900,
-      "points": 10,
+      "points": 11,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9436,10 +9584,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 5,
+      "hist_points": 6,
       "trend_platform": "zol",
-      "trend_points": 5,
+      "trend_points": 6,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:17+00:00",
+          "p": 1599900
+        },
         {
           "t": "2026-10-20T13:02:55+08:00",
           "p": 1599900
@@ -9464,7 +9616,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 1599900,
-      "points": 5,
+      "points": 6,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9548,10 +9700,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 5,
+      "hist_points": 6,
       "trend_platform": "zol",
-      "trend_points": 5,
+      "trend_points": 6,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:23+00:00",
+          "p": 249900
+        },
         {
           "t": "2026-10-20T13:03:01+08:00",
           "p": 249900
@@ -9576,7 +9732,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 249900,
-      "points": 5,
+      "points": 6,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9598,10 +9754,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 5,
+      "hist_points": 6,
       "trend_platform": "zol",
-      "trend_points": 5,
+      "trend_points": 6,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:25+00:00",
+          "p": 849900
+        },
         {
           "t": "2026-10-20T13:03:03+08:00",
           "p": 849900
@@ -9626,7 +9786,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 849900,
-      "points": 5,
+      "points": 6,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9662,10 +9822,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 3,
+      "hist_points": 4,
       "trend_platform": "zol",
-      "trend_points": 3,
+      "trend_points": 4,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:49+00:00",
+          "p": 409900
+        },
         {
           "t": "2026-10-20T13:03:57+08:00",
           "p": 409900
@@ -9682,7 +9846,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 409900,
-      "points": 3,
+      "points": 4,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9718,10 +9882,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 3,
+      "hist_points": 4,
       "trend_platform": "zol",
-      "trend_points": 3,
+      "trend_points": 4,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:51+00:00",
+          "p": 1089900
+        },
         {
           "t": "2026-10-20T13:03:59+08:00",
           "p": 1089900
@@ -9738,7 +9906,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 1089900,
-      "points": 3,
+      "points": 4,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9774,10 +9942,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 3,
+      "hist_points": 4,
       "trend_platform": "zol",
-      "trend_points": 3,
+      "trend_points": 4,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:53+00:00",
+          "p": 554900
+        },
         {
           "t": "2026-10-20T13:04:05+08:00",
           "p": 554900
@@ -9794,7 +9966,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 554900,
-      "points": 3,
+      "points": 4,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9830,10 +10002,14 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 3,
+      "hist_points": 4,
       "trend_platform": "zol",
-      "trend_points": 3,
+      "trend_points": 4,
       "trend": [
+        {
+          "t": "2026-10-20T09:03:55+00:00",
+          "p": 609900
+        },
         {
           "t": "2026-10-20T13:04:07+08:00",
           "p": 609900
@@ -9850,7 +10026,7 @@
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 609900,
-      "points": 3,
+      "points": 4,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9883,13 +10059,17 @@
       "hist_min": 47900,
       "hist_max": 47900,
       "hist_median": 47900,
-      "vs_avg_pct": null,
+      "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 2,
+      "hist_points": 3,
       "trend_platform": "zol",
-      "trend_points": 2,
+      "trend_points": 3,
       "trend": [
+        {
+          "t": "2026-10-20T09:04:15+00:00",
+          "p": 47900
+        },
         {
           "t": "2026-10-20T14:06:03+08:00",
           "p": 47900
@@ -9901,8 +10081,8 @@
       ],
       "msrp": null,
       "discount_vs_msrp": null,
-      "hist_avg": null,
-      "points": 2,
+      "hist_avg": 47900,
+      "points": 3,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9921,13 +10101,17 @@
       "hist_min": 75900,
       "hist_max": 75900,
       "hist_median": 75900,
-      "vs_avg_pct": null,
+      "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 2,
+      "hist_points": 3,
       "trend_platform": "zol",
-      "trend_points": 2,
+      "trend_points": 3,
       "trend": [
+        {
+          "t": "2026-10-20T09:04:19+00:00",
+          "p": 75900
+        },
         {
           "t": "2026-10-20T14:06:06+08:00",
           "p": 75900
@@ -9939,8 +10123,8 @@
       ],
       "msrp": null,
       "discount_vs_msrp": null,
-      "hist_avg": null,
-      "points": 2,
+      "hist_avg": 75900,
+      "points": 3,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -9959,13 +10143,17 @@
       "hist_min": 23500,
       "hist_max": 23500,
       "hist_median": 23500,
-      "vs_avg_pct": null,
+      "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 2,
+      "hist_points": 3,
       "trend_platform": "zol",
-      "trend_points": 2,
+      "trend_points": 3,
       "trend": [
+        {
+          "t": "2026-10-20T09:04:27+00:00",
+          "p": 23500
+        },
         {
           "t": "2026-10-20T14:06:15+08:00",
           "p": 23500
@@ -9977,8 +10165,8 @@
       ],
       "msrp": null,
       "discount_vs_msrp": null,
-      "hist_avg": null,
-      "points": 2,
+      "hist_avg": 23500,
+      "points": 3,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -10035,13 +10223,17 @@
       "hist_min": 47900,
       "hist_max": 47900,
       "hist_median": 47900,
-      "vs_avg_pct": null,
+      "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 2,
+      "hist_points": 3,
       "trend_platform": "zol",
-      "trend_points": 2,
+      "trend_points": 3,
       "trend": [
+        {
+          "t": "2026-10-20T09:04:51+00:00",
+          "p": 47900
+        },
         {
           "t": "2026-10-20T14:06:48+08:00",
           "p": 47900
@@ -10053,8 +10245,8 @@
       ],
       "msrp": null,
       "discount_vs_msrp": null,
-      "hist_avg": null,
-      "points": 2,
+      "hist_avg": 47900,
+      "points": 3,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -12032,6 +12224,27 @@
   },
   "collect_runs": [
     {
+      "status": "ok",
+      "ok_count": 12,
+      "fail_count": 0,
+      "anomaly_count": 0,
+      "started_at": "2026-10-20T09:04:31+00:00"
+    },
+    {
+      "status": "ok",
+      "ok_count": 16,
+      "fail_count": 0,
+      "anomaly_count": 0,
+      "started_at": "2026-10-20T09:03:59+00:00"
+    },
+    {
+      "status": "ok",
+      "ok_count": 22,
+      "fail_count": 0,
+      "anomaly_count": 0,
+      "started_at": "2026-10-20T09:03:14+00:00"
+    },
+    {
       "status": "aborted",
       "ok_count": 0,
       "fail_count": 0,
@@ -12044,27 +12257,6 @@
       "fail_count": 0,
       "anomaly_count": 0,
       "started_at": "2026-10-20T15:08:29+08:00"
-    },
-    {
-      "status": "ok",
-      "ok_count": 11,
-      "fail_count": 0,
-      "anomaly_count": 1,
-      "started_at": "2026-10-20T15:08:05+08:00"
-    },
-    {
-      "status": "ok",
-      "ok_count": 15,
-      "fail_count": 0,
-      "anomaly_count": 1,
-      "started_at": "2026-10-20T15:07:32+08:00"
-    },
-    {
-      "status": "ok",
-      "ok_count": 16,
-      "fail_count": 0,
-      "anomaly_count": 0,
-      "started_at": "2026-10-20T15:07:00+08:00"
     }
   ]
 }
