@@ -483,7 +483,7 @@ const CONFIG = {
     userCoupons: "/api/user-coupons",
     quote: "/api/quote",
   },
-  fallbackSnapshot: "/data/snapshot.json", // 服务没起时直接读静态文件
+  fallbackSnapshots: ["../data/snapshot.json", "data/snapshot.json", "/data/snapshot.json"], // 服务没起/静态托管时依次尝试
   cacheKey: "bid.gpu.snapshot.v2",          // 断网兜底缓存
   moneyUnit: "cents",                       // 'cents' | 'yuan'：后端若改成元，改这一个字
   autoDetectYuan: true,                     // 防御：msrp 被误存成"元"时自动 ×100（会在 console 警告）
@@ -2479,14 +2479,15 @@ async function loadSnapshot() {
   const res = await API.snapshot();
   if (res.ok && res.data) return { raw: res.data, offline: false };
 
-  // ② 静态文件（服务没起 / 接口 404）
-  try {
-    const r = await fetch(CONFIG.fallbackSnapshot, { cache: "no-store" });
-    if (r.ok) {
+  // ② 静态文件（服务没起 / 静态托管 / 接口 404）
+  for (const path of CONFIG.fallbackSnapshots) {
+    try {
+      const r = await fetch(path, { cache: "no-store" });
+      if (!r.ok) continue;
       const raw = await r.json();
-      if (raw && raw.products) return { raw, offline: false };
-    }
-  } catch (e) { /* 继续 */ }
+      if (raw && raw.products) return { raw, offline: false, static: true };
+    } catch (e) { /* 试下一个 */ }
+  }
 
   // ③ 本地缓存
   try {
@@ -2504,7 +2505,7 @@ async function boot() {
       document.body.classList.toggle("dev", new URLSearchParams(location.search).has("dev"));
     }
   } catch (e) { /* 测试环境没有 location */ }
-  const { raw, offline } = await loadSnapshot();
+  const { raw, offline, static: staticMode } = await loadSnapshot();
   if (!raw) {
     $("grid").innerHTML = `<div class="empty" style="grid-column:1/-1">
       没有读到数据。<br/>请在项目目录运行 <code>node src/serve.mjs</code>，然后访问 http://localhost:8787</div>`;
@@ -2512,6 +2513,17 @@ async function boot() {
     return;
   }
   try { localStorage.setItem(CONFIG.cacheKey, JSON.stringify(raw)); } catch (e) { /* 配额满就跳过 */ }
+  if (staticMode) {
+    // 静态托管（GitHub Pages）：没有后端，隐藏依赖接口的入口
+    try { document.body.classList.add("static"); } catch (e) {}
+    const mb = document.getElementById("matchBtn");
+    if (mb) mb.style.display = "none";
+    const at = document.getElementById("genAt");
+    if (at && !at.dataset.staticMarked) {
+      at.dataset.staticMarked = "1";
+      at.insertAdjacentHTML("afterend", ' <span class="tag" style="background:#1b2736;color:#9fb3d1;font-size:10.5px">静态演示·数据随 Actions 更新</span>');
+    }
+  }
   loadBook();
   applySnapshot(raw, offline);
   renderCouponBadge();
@@ -2659,7 +2671,7 @@ window.BID = {
   openProduct,
   normalize: (raw) => Adapter.normalize(raw),
   reload: async () => {
-    const { raw, offline } = await loadSnapshot();
+    const { raw, offline, static: staticMode } = await loadSnapshot();
     if (raw) applySnapshot(raw, offline);
   },
   /** 直接塞一份外部数据进来（例如未来从别的接口拿到的新结构） */

@@ -1,0 +1,46 @@
+name: 发布演示页
+
+# 把 web/ + data/snapshot.json + 商品图 发布到 GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 组装静态站点
+        run: |
+          mkdir -p _site/data
+          cp -r web _site/
+          cp data/snapshot.json _site/data/
+          cp -r data/images _site/data/images
+          cp index.html _site/
+          cp README.md _site/ 2>/dev/null || true
+          touch _site/.nojekyll
+          echo "站点文件数：$(find _site -type f | wc -l)"
+
+      - name: 上传站点产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: 部署到 Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
