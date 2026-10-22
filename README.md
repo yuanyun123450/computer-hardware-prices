@@ -127,13 +127,13 @@ powershell -ExecutionPolicy Bypass -File .\update-jd.ps1
 ## 四、目录结构
 
 ```
-src/               采集、解析、导出、服务、匹配、券计算
+src/               采集、解析、导出、服务、搜索匹配
 web/index.html     前端（单文件）
 data/price.db      SQLite（商品/报价/历史/映射）
 data/snapshot.json 前端读取的快照（导出产物）
 data/images/       本地商品图
 data/bili/         第三方参考数据
-docs/              设计文档、任务书、运维说明
+docs/              设计文档（架构与数据口径）
 tests/             自动验收
 schema.sql         建表语句
 ```
