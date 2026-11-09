@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-08T22:11:07+00:00",
-  "exported_at": "2026-11-08T22:11:57+00:00",
+  "generated_at": "2026-11-09T01:46:27+00:00",
+  "exported_at": "2026-11-09T01:47:18+00:00",
   "site": {
     "name": "京东硬件价格追踪",
     "tagline": "不止告诉你现在多少钱，还告诉你这个价值不值得买",
@@ -31,9 +31,9 @@
     "mb": "主板"
   },
   "counts": {
-    "products": 85,
-    "listings": 95,
-    "history_points": 2225
+    "products": 86,
+    "listings": 96,
+    "history_points": 2247
   },
   "products": [
     {
@@ -1650,6 +1650,25 @@
       "retired": 0,
       "jd_sku_hint": null,
       "display_name": "七彩虹 RTX 5070 豪华版"
+    },
+    {
+      "id": 284,
+      "brand": "振华",
+      "model": "振华LEADEX III HG 750W",
+      "storage": null,
+      "color": null,
+      "category": "power",
+      "title_zol": "振华LEADEX III HG 750W",
+      "image_url": "https://2a.zol-img.com.cn/product/208_280x210/464/ceyMMwDvHtLY.jpg",
+      "image_local": "data/images/284.jpg",
+      "msrp": null,
+      "match_key": "振华|leadexiiihg750w||",
+      "created_at": "2026-11-09T01:46:27+00:00",
+      "jd_sku": null,
+      "active": 1,
+      "retired": 0,
+      "jd_sku_hint": null,
+      "display_name": "振华LEADEX III HG 750W"
     }
   ],
   "latest": [
@@ -1744,7 +1763,7 @@
       "condition": null
     },
     {
-      "id": 5393,
+      "id": 5443,
       "product_id": 65,
       "platform": "zol",
       "title_raw": "金士顿骇客神条FURY 8GB DDR4 2666 RGB（HX426C16FB3A/8）",
@@ -1757,12 +1776,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:23+00:00",
+      "captured_at": "2026-11-09T01:45:41+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5394,
+      "id": 5444,
       "product_id": 66,
       "platform": "zol",
       "title_raw": "金士顿HyperX Predator  16GB DDR4 2933 RGB灯条（套装）",
@@ -1775,12 +1794,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:25+00:00",
+      "captured_at": "2026-11-09T01:45:43+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5395,
+      "id": 5445,
       "product_id": 67,
       "platform": "zol",
       "title_raw": "威刚SPECTRIX D50 16GB（2×8GB）DDR4 3600",
@@ -1793,7 +1812,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:27+00:00",
+      "captured_at": "2026-11-09T01:45:45+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -1924,7 +1943,7 @@
       "condition": null
     },
     {
-      "id": 5405,
+      "id": 5455,
       "product_id": 89,
       "platform": "zol",
       "title_raw": "长城HOPE-6000DS",
@@ -1937,12 +1956,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:48+00:00",
+      "captured_at": "2026-11-09T01:46:06+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5407,
+      "id": 5457,
       "product_id": 90,
       "platform": "zol",
       "title_raw": "长城金牌巨龙GW-EPS1000DA(90+)",
@@ -1955,12 +1974,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:51+00:00",
+      "captured_at": "2026-11-09T01:46:09+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5410,
+      "id": 5460,
       "product_id": 92,
       "platform": "zol",
       "title_raw": "振华冰山金蝶550W 能效版",
@@ -1973,12 +1992,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:57+00:00",
+      "captured_at": "2026-11-09T01:46:16+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5411,
+      "id": 5461,
       "product_id": 93,
       "platform": "zol",
       "title_raw": "航嘉冷静王钻石2.3+版",
@@ -1991,12 +2010,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:11:00+00:00",
+      "captured_at": "2026-11-09T01:46:17+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5413,
+      "id": 5463,
       "product_id": 95,
       "platform": "zol",
       "title_raw": "长城V5 GW-ATX500BL 直出线版",
@@ -2009,12 +2028,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:11:04+00:00",
+      "captured_at": "2026-11-09T01:46:22+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5414,
+      "id": 5464,
       "product_id": 96,
       "platform": "zol",
       "title_raw": "长城双动力静音BTX-400SEL-P4",
@@ -2027,7 +2046,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:11:05+00:00",
+      "captured_at": "2026-11-09T01:46:24+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -2464,7 +2483,7 @@
       "condition": "new"
     },
     {
-      "id": 5368,
+      "id": 5418,
       "product_id": 163,
       "platform": "zol",
       "title_raw": "技嘉GeForce RTX 5060 Ti GAMING OC 16G",
@@ -2477,7 +2496,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:09:32+00:00",
+      "captured_at": "2026-11-09T01:44:51+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -2500,7 +2519,7 @@
       "condition": "new"
     },
     {
-      "id": 5370,
+      "id": 5420,
       "product_id": 164,
       "platform": "zol",
       "title_raw": "微星GeForce RTX 5060 8G GAMING TRIO OC",
@@ -2513,12 +2532,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:09:36+00:00",
+      "captured_at": "2026-11-09T01:44:55+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5372,
+      "id": 5422,
       "product_id": 165,
       "platform": "zol",
       "title_raw": "七彩虹iGame GeForce RTX 4060 Ultra W DUO 8GB",
@@ -2531,12 +2550,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:09:40+00:00",
+      "captured_at": "2026-11-09T01:44:59+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5371,
+      "id": 5421,
       "product_id": 166,
       "platform": "zol",
       "title_raw": "华硕TUF-RTX5070TI-O16G",
@@ -2549,7 +2568,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:09:38+00:00",
+      "captured_at": "2026-11-09T01:44:57+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -2572,7 +2591,7 @@
       "condition": null
     },
     {
-      "id": 5397,
+      "id": 5447,
       "product_id": 190,
       "platform": "zol",
       "title_raw": "金士顿叛逆者Renegade 32GB(16G*2) DDR5 6000 灯条RGB白",
@@ -2585,12 +2604,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:31+00:00",
+      "captured_at": "2026-11-09T01:45:50+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5404,
+      "id": 5454,
       "product_id": 192,
       "platform": "zol",
       "title_raw": "金士顿FURY Beast 32GB DDR5 6000（KF560C40BB-32）",
@@ -2603,12 +2622,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:45+00:00",
+      "captured_at": "2026-11-09T01:46:03+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5399,
+      "id": 5449,
       "product_id": 196,
       "platform": "zol",
       "title_raw": "金士顿HyperX Savage 8GB DDR4 2400（HX424C12SB/8）",
@@ -2621,7 +2640,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:35+00:00",
+      "captured_at": "2026-11-09T01:45:53+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -2644,7 +2663,7 @@
       "condition": null
     },
     {
-      "id": 5415,
+      "id": 5465,
       "product_id": 200,
       "platform": "zol",
       "title_raw": "航嘉WD750K全模组 新版",
@@ -2657,7 +2676,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:11:07+00:00",
+      "captured_at": "2026-11-09T01:46:25+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -3202,7 +3221,7 @@
       "condition": null
     },
     {
-      "id": 5385,
+      "id": 5435,
       "product_id": 262,
       "platform": "zol",
       "title_raw": "技嘉GeForce RTX 5090 D WINDFORCE 32G",
@@ -3215,12 +3234,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:06+00:00",
+      "captured_at": "2026-11-09T01:45:25+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5384,
+      "id": 5434,
       "product_id": 263,
       "platform": "zol",
       "title_raw": "华硕DUAL GeForce RTX4070 SUPER O12G",
@@ -3233,12 +3252,12 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:10:04+00:00",
+      "captured_at": "2026-11-09T01:45:23+00:00",
       "seller_type": null,
       "condition": null
     },
     {
-      "id": 5381,
+      "id": 5431,
       "product_id": 265,
       "platform": "zol",
       "title_raw": "ASUS（华硕）RTX 4060 Ti DUAL-RTX4060TI-O16G",
@@ -3251,7 +3270,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:09:58+00:00",
+      "captured_at": "2026-11-09T01:45:17+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -3310,7 +3329,7 @@
       "condition": null
     },
     {
-      "id": 5376,
+      "id": 5426,
       "product_id": 279,
       "platform": "zol",
       "title_raw": "七彩虹iGame GeForce RTX 5070 Ti Ultra W OC 16GB",
@@ -3323,7 +3342,7 @@
       "account_kind": "anon",
       "coupon_scope": "none",
       "confidence": "partial",
-      "captured_at": "2026-11-08T22:09:48+00:00",
+      "captured_at": "2026-11-09T01:45:07+00:00",
       "seller_type": null,
       "condition": null
     },
@@ -3360,6 +3379,24 @@
       "coupon_scope": "none",
       "confidence": "partial",
       "captured_at": "2026-11-06T21:31:20+00:00",
+      "seller_type": null,
+      "condition": null
+    },
+    {
+      "id": 5466,
+      "product_id": 284,
+      "platform": "zol",
+      "title_raw": "振华LEADEX III HG 750W",
+      "url": "https://detail.zol.com.cn/power/index1342457.shtml",
+      "price": 69900,
+      "currency": "CNY",
+      "in_stock": null,
+      "seller": null,
+      "region": null,
+      "account_kind": "anon",
+      "coupon_scope": "none",
+      "confidence": "partial",
+      "captured_at": "2026-11-09T01:46:27+00:00",
       "seller_type": null,
       "condition": null
     }
@@ -3938,6 +3975,10 @@
         [
           "2026-11-08T22:10:23+00:00",
           36900
+        ],
+        [
+          "2026-11-09T01:45:41+00:00",
+          36900
         ]
       ]
     },
@@ -4304,6 +4345,10 @@
         [
           "2026-11-08T22:10:25+00:00",
           39900
+        ],
+        [
+          "2026-11-09T01:45:43+00:00",
+          39900
         ]
       ]
     },
@@ -4669,6 +4714,10 @@
         ],
         [
           "2026-11-08T22:10:27+00:00",
+          89900
+        ],
+        [
+          "2026-11-09T01:45:45+00:00",
           89900
         ]
       ]
@@ -5374,6 +5423,10 @@
         [
           "2026-11-08T22:10:48+00:00",
           19900
+        ],
+        [
+          "2026-11-09T01:46:06+00:00",
+          19900
         ]
       ]
     },
@@ -5727,6 +5780,10 @@
         ],
         [
           "2026-11-08T22:10:51+00:00",
+          44900
+        ],
+        [
+          "2026-11-09T01:46:09+00:00",
           44900
         ]
       ]
@@ -6082,6 +6139,10 @@
         [
           "2026-11-08T22:10:57+00:00",
           47900
+        ],
+        [
+          "2026-11-09T01:46:16+00:00",
+          47900
         ]
       ]
     },
@@ -6435,6 +6496,10 @@
         ],
         [
           "2026-11-08T22:11:00+00:00",
+          18900
+        ],
+        [
+          "2026-11-09T01:46:17+00:00",
           18900
         ]
       ]
@@ -6790,6 +6855,10 @@
         [
           "2026-11-08T22:11:04+00:00",
           32900
+        ],
+        [
+          "2026-11-09T01:46:22+00:00",
+          32900
         ]
       ]
     },
@@ -7143,6 +7212,10 @@
         ],
         [
           "2026-11-08T22:11:05+00:00",
+          18900
+        ],
+        [
+          "2026-11-09T01:46:24+00:00",
           18900
         ]
       ]
@@ -8420,6 +8493,10 @@
         [
           "2026-11-08T22:09:32+00:00",
           409900
+        ],
+        [
+          "2026-11-09T01:44:51+00:00",
+          409900
         ]
       ]
     },
@@ -8761,6 +8838,10 @@
         ],
         [
           "2026-11-08T22:09:36+00:00",
+          289900
+        ],
+        [
+          "2026-11-09T01:44:55+00:00",
           289900
         ]
       ]
@@ -9104,6 +9185,10 @@
         [
           "2026-11-08T22:09:40+00:00",
           249900
+        ],
+        [
+          "2026-11-09T01:44:59+00:00",
+          249900
         ]
       ]
     },
@@ -9445,6 +9530,10 @@
         ],
         [
           "2026-11-08T22:09:38+00:00",
+          849900
+        ],
+        [
+          "2026-11-09T01:44:57+00:00",
           849900
         ]
       ]
@@ -9914,6 +10003,10 @@
         [
           "2026-11-08T22:10:31+00:00",
           47900
+        ],
+        [
+          "2026-11-09T01:45:50+00:00",
+          47900
         ]
       ]
     },
@@ -10243,6 +10336,10 @@
         ],
         [
           "2026-11-08T22:10:45+00:00",
+          75900
+        ],
+        [
+          "2026-11-09T01:46:03+00:00",
           75900
         ]
       ]
@@ -10574,6 +10671,10 @@
         [
           "2026-11-08T22:10:35+00:00",
           23500
+        ],
+        [
+          "2026-11-09T01:45:53+00:00",
+          23500
         ]
       ]
     },
@@ -10895,6 +10996,10 @@
         ],
         [
           "2026-11-08T22:11:07+00:00",
+          47900
+        ],
+        [
+          "2026-11-09T01:46:25+00:00",
           47900
         ]
       ]
@@ -12036,6 +12141,10 @@
         [
           "2026-11-08T22:10:06+00:00",
           1649900
+        ],
+        [
+          "2026-11-09T01:45:25+00:00",
+          1649900
         ]
       ]
     },
@@ -12278,6 +12387,10 @@
         [
           "2026-11-08T22:10:04+00:00",
           589900
+        ],
+        [
+          "2026-11-09T01:45:23+00:00",
+          589900
         ]
       ]
     },
@@ -12488,6 +12601,10 @@
         [
           "2026-11-08T22:09:58+00:00",
           680000
+        ],
+        [
+          "2026-11-09T01:45:17+00:00",
+          680000
         ]
       ]
     },
@@ -12612,6 +12729,10 @@
         [
           "2026-11-08T22:09:48+00:00",
           759900
+        ],
+        [
+          "2026-11-09T01:45:07+00:00",
+          759900
         ]
       ]
     },
@@ -12648,6 +12769,16 @@
         [
           "2026-11-06T21:31:20+00:00",
           614900
+        ]
+      ]
+    },
+    {
+      "product_id": 284,
+      "platform": "zol",
+      "points": [
+        [
+          "2026-11-09T01:46:27+00:00",
+          69900
         ]
       ]
     }
@@ -12917,14 +13048,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 91,
+      "hist_points": 92,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:54+00:00",
-          "p": 36900
-        },
         {
           "t": "2026-10-29T13:07:59+00:00",
           "p": 36900
@@ -13080,12 +13207,16 @@
         {
           "t": "2026-11-08T22:10:23+00:00",
           "p": 36900
+        },
+        {
+          "t": "2026-11-09T01:45:41+00:00",
+          "p": 36900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 36900,
-      "points": 91,
+      "points": 92,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -13107,14 +13238,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 90,
+      "hist_points": 91,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:56+00:00",
-          "p": 39900
-        },
         {
           "t": "2026-10-29T13:08:01+00:00",
           "p": 39900
@@ -13270,12 +13397,16 @@
         {
           "t": "2026-11-08T22:10:25+00:00",
           "p": 39900
+        },
+        {
+          "t": "2026-11-09T01:45:43+00:00",
+          "p": 39900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 39900,
-      "points": 90,
+      "points": 91,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -13297,14 +13428,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 90,
+      "hist_points": 91,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:58+00:00",
-          "p": 89900
-        },
         {
           "t": "2026-10-29T13:08:03+00:00",
           "p": 89900
@@ -13460,12 +13587,16 @@
         {
           "t": "2026-11-08T22:10:27+00:00",
           "p": 89900
+        },
+        {
+          "t": "2026-11-09T01:45:45+00:00",
+          "p": 89900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 89900,
-      "points": 90,
+      "points": 91,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -13934,17 +14065,13 @@
       "hist_min": 19900,
       "hist_max": 25900,
       "hist_median": 19900,
-      "vs_avg_pct": -10.8,
+      "vs_avg_pct": -10.7,
       "vs_min_pct": 0,
       "at_hist_low": true,
-      "hist_points": 145,
+      "hist_points": 146,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-30T13:00:48+00:00",
-          "p": 19900
-        },
         {
           "t": "2026-10-30T13:01:08+00:00",
           "p": 25900
@@ -14100,17 +14227,21 @@
         {
           "t": "2026-11-08T22:10:48+00:00",
           "p": 19900
+        },
+        {
+          "t": "2026-11-09T01:46:06+00:00",
+          "p": 19900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
-      "hist_avg": 22300,
-      "points": 145,
+      "hist_avg": 22284,
+      "points": 146,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": true,
       "reasons": [
-        "低于近期均价 10.8%"
+        "低于近期均价 10.7%"
       ],
       "price_flag": null,
       "reference_match": null
@@ -14129,14 +14260,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 87,
+      "hist_points": 88,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:22+00:00",
-          "p": 44900
-        },
         {
           "t": "2026-10-29T13:08:28+00:00",
           "p": 44900
@@ -14292,12 +14419,16 @@
         {
           "t": "2026-11-08T22:10:51+00:00",
           "p": 44900
+        },
+        {
+          "t": "2026-11-09T01:46:09+00:00",
+          "p": 44900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 44900,
-      "points": 87,
+      "points": 88,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -14319,14 +14450,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 87,
+      "hist_points": 88,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:28+00:00",
-          "p": 47900
-        },
         {
           "t": "2026-10-29T13:08:33+00:00",
           "p": 47900
@@ -14482,12 +14609,16 @@
         {
           "t": "2026-11-08T22:10:57+00:00",
           "p": 47900
+        },
+        {
+          "t": "2026-11-09T01:46:16+00:00",
+          "p": 47900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 47900,
-      "points": 87,
+      "points": 88,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -14509,14 +14640,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 87,
+      "hist_points": 88,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:30+00:00",
-          "p": 18900
-        },
         {
           "t": "2026-10-29T13:08:35+00:00",
           "p": 18900
@@ -14672,12 +14799,16 @@
         {
           "t": "2026-11-08T22:11:00+00:00",
           "p": 18900
+        },
+        {
+          "t": "2026-11-09T01:46:17+00:00",
+          "p": 18900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 18900,
-      "points": 87,
+      "points": 88,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -14699,14 +14830,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 87,
+      "hist_points": 88,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:34+00:00",
-          "p": 32900
-        },
         {
           "t": "2026-10-29T13:08:39+00:00",
           "p": 32900
@@ -14862,12 +14989,16 @@
         {
           "t": "2026-11-08T22:11:04+00:00",
           "p": 32900
+        },
+        {
+          "t": "2026-11-09T01:46:22+00:00",
+          "p": 32900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 32900,
-      "points": 87,
+      "points": 88,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -14889,14 +15020,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 87,
+      "hist_points": 88,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:35+00:00",
-          "p": 18900
-        },
         {
           "t": "2026-10-29T13:08:41+00:00",
           "p": 18900
@@ -15052,12 +15179,16 @@
         {
           "t": "2026-11-08T22:11:05+00:00",
           "p": 18900
+        },
+        {
+          "t": "2026-11-09T01:46:24+00:00",
+          "p": 18900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 18900,
-      "points": 87,
+      "points": 88,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -16607,14 +16738,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 84,
+      "hist_points": 85,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:08+00:00",
-          "p": 249900
-        },
         {
           "t": "2026-10-29T13:07:14+00:00",
           "p": 249900
@@ -16770,12 +16897,16 @@
         {
           "t": "2026-11-08T22:09:40+00:00",
           "p": 249900
+        },
+        {
+          "t": "2026-11-09T01:44:59+00:00",
+          "p": 249900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 249900,
-      "points": 84,
+      "points": 85,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -16797,14 +16928,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 84,
+      "hist_points": 85,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:10+00:00",
-          "p": 849900
-        },
         {
           "t": "2026-10-29T13:07:16+00:00",
           "p": 849900
@@ -16960,12 +17087,16 @@
         {
           "t": "2026-11-08T22:09:38+00:00",
           "p": 849900
+        },
+        {
+          "t": "2026-11-09T01:44:57+00:00",
+          "p": 849900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 849900,
-      "points": 84,
+      "points": 85,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -17177,14 +17308,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 81,
+      "hist_points": 82,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:01+00:00",
-          "p": 47900
-        },
         {
           "t": "2026-10-29T13:08:07+00:00",
           "p": 47900
@@ -17340,12 +17467,16 @@
         {
           "t": "2026-11-08T22:10:31+00:00",
           "p": 47900
+        },
+        {
+          "t": "2026-11-09T01:45:50+00:00",
+          "p": 47900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 47900,
-      "points": 81,
+      "points": 82,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -17367,14 +17498,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 81,
+      "hist_points": 82,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:05+00:00",
-          "p": 75900
-        },
         {
           "t": "2026-10-29T13:08:10+00:00",
           "p": 75900
@@ -17530,12 +17657,16 @@
         {
           "t": "2026-11-08T22:10:45+00:00",
           "p": 75900
+        },
+        {
+          "t": "2026-11-09T01:46:03+00:00",
+          "p": 75900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 75900,
-      "points": 81,
+      "points": 82,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -17557,14 +17688,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 81,
+      "hist_points": 82,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:13+00:00",
-          "p": 23500
-        },
         {
           "t": "2026-10-29T13:08:18+00:00",
           "p": 23500
@@ -17720,12 +17847,16 @@
         {
           "t": "2026-11-08T22:10:35+00:00",
           "p": 23500
+        },
+        {
+          "t": "2026-11-09T01:45:53+00:00",
+          "p": 23500
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 23500,
-      "points": 81,
+      "points": 82,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -17785,14 +17916,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 79,
+      "hist_points": 80,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:53:38+00:00",
-          "p": 47900
-        },
         {
           "t": "2026-10-29T13:08:43+00:00",
           "p": 47900
@@ -17948,12 +18075,16 @@
         {
           "t": "2026-11-08T22:11:07+00:00",
           "p": 47900
+        },
+        {
+          "t": "2026-11-09T01:46:25+00:00",
+          "p": 47900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 47900,
-      "points": 79,
+      "points": 80,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -19287,14 +19418,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 59,
+      "hist_points": 60,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:26+00:00",
-          "p": 589900
-        },
         {
           "t": "2026-10-29T13:07:32+00:00",
           "p": 589900
@@ -19450,12 +19577,16 @@
         {
           "t": "2026-11-08T22:10:04+00:00",
           "p": 589900
+        },
+        {
+          "t": "2026-11-09T01:45:23+00:00",
+          "p": 589900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 589900,
-      "points": 59,
+      "points": 60,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -19477,14 +19608,10 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 51,
+      "hist_points": 52,
       "trend_platform": "zol",
       "trend_points": 40,
       "trend": [
-        {
-          "t": "2026-10-29T05:52:20+00:00",
-          "p": 680000
-        },
         {
           "t": "2026-10-29T13:07:26+00:00",
           "p": 680000
@@ -19640,12 +19767,16 @@
         {
           "t": "2026-11-08T22:09:58+00:00",
           "p": 680000
+        },
+        {
+          "t": "2026-11-09T01:45:17+00:00",
+          "p": 680000
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 680000,
-      "points": 51,
+      "points": 52,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -19815,9 +19946,9 @@
       "vs_avg_pct": 0,
       "vs_min_pct": 0,
       "at_hist_low": false,
-      "hist_points": 14,
+      "hist_points": 15,
       "trend_platform": "zol",
-      "trend_points": 14,
+      "trend_points": 15,
       "trend": [
         {
           "t": "2026-11-05T09:31:35+00:00",
@@ -19874,12 +20005,16 @@
         {
           "t": "2026-11-08T22:09:48+00:00",
           "p": 759900
+        },
+        {
+          "t": "2026-11-09T01:45:07+00:00",
+          "p": 759900
         }
       ],
       "msrp": null,
       "discount_vs_msrp": null,
       "hist_avg": 759900,
-      "points": 14,
+      "points": 15,
       "platform_count": 1,
       "confidence": "partial",
       "is_good_deal": false,
@@ -19998,6 +20133,40 @@
         },
         "note": "系列级参考（第三方整理），不等于本商品的实测价"
       }
+    },
+    {
+      "product_id": 284,
+      "price": 69900,
+      "price_live": null,
+      "price_reference": 69900,
+      "price_role": "reference_only",
+      "market_min": 69900,
+      "price_source": "zol_reference",
+      "hist_min": 69900,
+      "hist_max": 69900,
+      "hist_median": 69900,
+      "vs_avg_pct": null,
+      "vs_min_pct": 0,
+      "at_hist_low": false,
+      "hist_points": 1,
+      "trend_platform": "zol",
+      "trend_points": 1,
+      "trend": [
+        {
+          "t": "2026-11-09T01:46:27+00:00",
+          "p": 69900
+        }
+      ],
+      "msrp": null,
+      "discount_vs_msrp": null,
+      "hist_avg": null,
+      "points": 1,
+      "platform_count": 1,
+      "confidence": "partial",
+      "is_good_deal": false,
+      "reasons": [],
+      "price_flag": null,
+      "reference_match": null
     }
   ],
   "model_groups": [
@@ -21497,6 +21666,27 @@
       "ok_count": 12,
       "fail_count": 0,
       "anomaly_count": 0,
+      "started_at": "2026-11-09T01:46:05+00:00"
+    },
+    {
+      "status": "ok",
+      "ok_count": 16,
+      "fail_count": 0,
+      "anomaly_count": 0,
+      "started_at": "2026-11-09T01:45:33+00:00"
+    },
+    {
+      "status": "ok",
+      "ok_count": 22,
+      "fail_count": 0,
+      "anomaly_count": 0,
+      "started_at": "2026-11-09T01:44:48+00:00"
+    },
+    {
+      "status": "ok",
+      "ok_count": 12,
+      "fail_count": 0,
+      "anomaly_count": 0,
       "started_at": "2026-11-08T22:10:47+00:00"
     },
     {
@@ -21505,27 +21695,6 @@
       "fail_count": 0,
       "anomaly_count": 0,
       "started_at": "2026-11-08T22:10:15+00:00"
-    },
-    {
-      "status": "ok",
-      "ok_count": 22,
-      "fail_count": 0,
-      "anomaly_count": 0,
-      "started_at": "2026-11-08T22:09:30+00:00"
-    },
-    {
-      "status": "ok",
-      "ok_count": 12,
-      "fail_count": 0,
-      "anomaly_count": 0,
-      "started_at": "2026-11-08T16:42:54+00:00"
-    },
-    {
-      "status": "ok",
-      "ok_count": 16,
-      "fail_count": 0,
-      "anomaly_count": 0,
-      "started_at": "2026-11-08T16:42:22+00:00"
     }
   ]
 }
